@@ -1,0 +1,20 @@
+  1. Mailbox
+  - The exact shared mailbox address, and confirmation it's a shared (or licensed) mailbox.
+
+  2. Entra (Azure AD) app registration — a dedicated service principal for this integration, from which we'll need:
+  - Tenant (Directory) ID
+  - Application (Client) ID
+  - Client secret or certificate (+ expiry date) 
+
+  3. Graph API permissions (application type) + tenant admin consent
+  - Mail.Read — if we only read messages, or
+  - Mail.ReadWrite — if we should mark/move messages as "processed" after triage.
+  
+
+  4. Mailbox scoping (security)
+  - An Application Access Policy restricting this app to only the shared mailbox above (so it can't access any other mailbox in the tenant).
+
+  5. Environment / connectivity
+  - Which Microsoft cloud (commercial graph.microsoft.com vs. a sovereign/GCC endpoint)?
+  - Confirm our platform can reach login.microsoftonline.com and graph.microsoft.com — any proxy, firewall allow‑list, or
+  Conditional Access exception we need to request?
