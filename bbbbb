@@ -1,5 +1,0 @@
-NexAI OTC extraction is down since 13 Sep — every Chinou call is rejected with "Service account 'svcnewsd'
-  is not authorized for Registration ID …".
-
-  Nomura's AI CoE switched on Registration‑ID enforcement on 13 Sep, and our service account svcnewsd isn't authorized
-  for either of our IDs (I've tested both — both rejected). Nothing changed on our side; it all worked on 12 Sep
