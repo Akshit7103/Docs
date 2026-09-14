@@ -1,0 +1,10 @@
+ On the svcnewsd account: it's not in our code. The credentials are stored on the ServiceNow platform side, in a Basic
+  Auth Profile attached to the outbound REST Message "Chinou API" (password held encrypted, never visible to the
+  script).
+
+  Our Script Include just calls that REST Message by name. When the request runs, ServiceNow automatically attaches the
+  svcnewsd credentials from the profile and routes the call through the MID server to Chinou. The Registration ID and
+  model are read from system properties and added to the request body.
+
+  So the account is used purely through the REST Message configuration — no username, password or token exists in the
+  code.
