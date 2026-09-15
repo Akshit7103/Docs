@@ -1,0 +1,94 @@
+x_nose_nfotc_bsm: [ONBOARD] Gopinath Adhikary (adhikarg) as SUPERUSER
+#### Compiler Stats ####
+Compiles: 1, time: 1,531ms
+Total classes: 12, bytecode length: 0
+Total loaders created: 12, unloaded: 12, existing: 0
+Interpreted compiles: 13,200, time: 12,645ms
+Cache name: "syscache_expression", max: 7,447, size: 4,779, seeks: 998,603,872, hits: 499,297,063, misses: 499,306,809, flushed: 0, row evictions: 0, single key evictions: 0, puts: 0, reclaims: 0, time from last reclaim to recreation total ms: 0, average time from last reclaim to recreation ms: 0
+[CacheFlushLog] event=sys_user_has_role, count=1, ms=1: Flushing catalog sys_user_has_role
+[CacheFlushLog] event=user_criteria_cache, count=1, ms=39: Flushing catalog user_criteria_cache
+[CacheFlushLog] event=USER_ITEMS_CACHE, count=1, ms=1: Flushing catalog USER_ITEMS_CACHE
+[CacheFlushLog] event=USER_CATEGORIES_CACHE, count=1, ms=1: Flushing catalog USER_CATEGORIES_CACHE
+[CacheFlushLog] event=knowledge_base_cache, count=1, ms=1: Flushing catalog knowledge_base_cache
+x_nose_nfotc_bsm:    role   : granted x_nose_nfotc_bsm.analyst
+Adding Role x_nose_nfotc_bsm.analyst to adhikarg
+Background message, type:info, message: Adding Role x_nose_nfotc_bsm.analyst to adhikarg
+x_nose_nfotc_bsm:    role   : granted x_nose_nfotc_bsm.manager
+[CacheFlushLog] event=sys_properties, count=1, ms=291: Flushing catalog sys_properties
+Starting cache flush
+Flushing the whole cache list
+[CacheFlushLog] event=sys_cacheflush_timestamp, count=1, ms=99: Flushing catalog sys_cacheflush_timestamp
+[CacheFlushLog] event=syscache_everything, count=1, ms=117: Flushing catalog syscache_everything
+Loaded the Data Lookup cache in 17 ms
+[CacheFlushLog] event=sys_ux_asset_cache_buster, count=1, ms=57: Flushing catalog sys_ux_asset_cache_buster
+█ Activity Document Table Cache:  rebuilt=[sn_vsc_instance_hardening_settings]
+Flushing Scoped caches
+[CacheFlushLog] event=glide.properties.db, count=1, ms=45: Flushing catalog glide.properties.db
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Cache flush complete
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Slow business rule 'Properties change' on sys_properties:<span class = "session-log-bold-text"> x_nose_nfotc_bsm.demo_users</span>, time was: 0:00:01.123
+x_nose_nfotc_bsm:    toggle : added to demo_users -> akshit.mahajan,satyadarshi.mohanty,gopinath.adhikary,sriram.iyer,mayur.nachnani,muralia,adhikarg
+x_nose_nfotc_bsm:    wizard : "OTC Settlement : Prematching" (assigned)
+x_nose_nfotc_bsm: [ONBOARD] Vishnu Wala (walavisv) as SUPERUSER
+x_nose_nfotc_bsm:    role   : granted x_nose_nfotc_bsm.analyst
+Adding Role x_nose_nfotc_bsm.analyst to walavisv
+Background message, type:info, message: Adding Role x_nose_nfotc_bsm.analyst to walavisv
+x_nose_nfotc_bsm:    role   : granted x_nose_nfotc_bsm.manager
+Starting cache flush
+Flushing the whole cache list
+Loaded the Data Lookup cache in 18 ms
+█ Activity Document Table Cache:  rebuilt=[sn_vsc_instance_hardening_settings]
+Flushing Scoped caches
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Cache flush complete
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Slow business rule 'Properties change' on sys_properties:<span class = "session-log-bold-text"> x_nose_nfotc_bsm.demo_users</span>, time was: 0:00:00.991
+x_nose_nfotc_bsm:    toggle : added to demo_users -> akshit.mahajan,satyadarshi.mohanty,gopinath.adhikary,sriram.iyer,mayur.nachnani,muralia,adhikarg,walavisv
+x_nose_nfotc_bsm:    wizard : "OTC Settlement : Prematching" (assigned)
+x_nose_nfotc_bsm: [ONBOARD] Paramjeet Singh Nigam (nigamp) as SUPERUSER
+x_nose_nfotc_bsm:    role   : granted x_nose_nfotc_bsm.analyst
+Adding Role x_nose_nfotc_bsm.analyst to nigamp
+Background message, type:info, message: Adding Role x_nose_nfotc_bsm.analyst to nigamp
+x_nose_nfotc_bsm:    role   : granted x_nose_nfotc_bsm.manager
+Starting cache flush
+Flushing the whole cache list
+█ Activity Document Table Cache:  rebuilt=[sn_vsc_instance_hardening_settings]
+Flushing Scoped caches
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Cache flush complete
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Slow business rule 'Properties change' on sys_properties:<span class = "session-log-bold-text"> x_nose_nfotc_bsm.demo_users</span>, time was: 0:00:00.922
+x_nose_nfotc_bsm:    toggle : added to demo_users -> akshit.mahajan,satyadarshi.mohanty,gopinath.adhikary,sriram.iyer,mayur.nachnani,muralia,adhikarg,walavisv,nigamp
+x_nose_nfotc_bsm:    wizard : "OTC Settlement : Prematching" (assigned)
+x_nose_nfotc_bsm: [ONBOARD] done. Each person should log out and in once, then open /nfotcbsm.
