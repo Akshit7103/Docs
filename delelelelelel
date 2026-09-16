@@ -1,0 +1,15 @@
+ 1. EWS endpoint URL for the target environment, the full path ending in /EWS/Exchange.asmx, and the Exchange version.
+  2. Authentication methods accepted on the EWS virtual directory. Specifically, whether Basic authentication over TLS
+     or OAuth is available for a service account, or NTLM only. The WWW-Authenticate header from an unauthenticated
+     request is enough.
+  3. Service account for the mailbox: account name in DOMAIN\user form and UPN. Please deliver the password through the
+     agreed secure channel, not by email.
+  4. The shared mailbox address for each environment (QA, UAT, production) and the rights granted to the service account
+     on it: full-access delegate or application impersonation.
+  5. Firewall confirmation for HTTPS from the MID server to the EWS host, and any proxy in the path.
+  6. The internal CA certificate chain for the EWS host, so the MID server can verify TLS.
+  7. EWS throttling policy applied to the service account.
+  8. Mailbox folder to read from, folder to move processed mail into, and confirmation the account may set Outlook
+     categories on messages.
+  9. Password rotation policy for the service account and confirmation it is exempt from interactive MFA.
+  10. Any planned date for migrating this mailbox to Exchange Online, since that changes the integration method.
