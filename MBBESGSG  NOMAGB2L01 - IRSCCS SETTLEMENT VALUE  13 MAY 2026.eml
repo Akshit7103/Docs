@@ -1,0 +1,608 @@
+Received: from MUMWSP24300.ASIAPAC.NOM (10.201.3.164) by
+ MUMWSP14104.ASIAPAC.NOM (10.199.8.6) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2507.66 via Mailbox Transport; Tue, 12 May 2026 09:48:56 +0530
+Received: from AMP016238.AMERICAS.NOM (10.51.16.138) by
+ MUMWSP24300.ASIAPAC.NOM (10.201.3.164) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2507.66; Tue, 12 May 2026 09:48:55 +0530
+Received: from wokvap00005.nomura.com (10.81.184.100) by nomura.com
+ (10.51.16.138) with Microsoft SMTP Server id 15.2.2562.37 via Frontend
+ Transport; Tue, 12 May 2026 00:18:53 -0400
+Received: from pps.filterd (wokvap00005.nomura.com [127.0.0.1])
+	by wokvap00005.nomura.com (8.18.1.2/8.18.1.2) with ESMTP id 64C1N5c5029611
+	for <otcsettlements@nomura.com>; Tue, 12 May 2026 05:18:52 +0100
+Authentication-Results: nomura.com;
+	spf=softfail smtp.mailfrom=prvs=65925ab2d7=sg.tsu_lfxconfirmations@maybank.com;
+	dkim=fail header.d=maybank.com header.s=MBB20221104;
+	dmarc=fail header.from=maybank.com
+Received: from ext-eu-mailp201.nomura.com (eup024796.nomura.com [10.72.136.26])
+	by wokvap00005.nomura.com (PPS) with ESMTP id 4e1uv54kdw-1
+	for <otcsettlements@nomura.com>; Tue, 12 May 2026 05:18:52 +0100 (BST)
+Received: from pps.filterd (eup024796.nomura.com [127.0.0.1])
+	by eup024796.nomura.com (8.18.1.2/8.18.1.2) with ESMTP id 64C4BYI5024964
+	for <otcsettlements@nomura.com>; Tue, 12 May 2026 05:19:11 +0100
+Received: from mx0b-00006802.pphosted.com (mx0b-00006802.pphosted.com [67.231.157.218])
+	by eup024796.nomura.com (PPS) with ESMTPS id 4e2gd94jwj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <otcsettlements@nomura.com>; Tue, 12 May 2026 05:19:11 +0100 (BST)
+Received: from pps.filterd (m0073802.ppops.net [127.0.0.1])
+	by mx0b-00006802.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64C2DSC91597272
+	for <otcsettlements@nomura.com>; Tue, 12 May 2026 04:18:51 GMT
+Authentication-Results: ppops.net;
+	spf=pass smtp.mailfrom=prvs=65925ab2d7=sg.tsu_lfxconfirmations@maybank.com;
+	dkim=pass header.s=MBB20221104 header.d=maybank.com
+Received: from ms2.maybank.com (mail3.maybank.com [103.51.50.148])
+	by mx0b-00006802.pphosted.com (PPS) with ESMTPS id 4e3nv7teuj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 12 May 2026 04:18:50 +0000 (GMT)
+Received: from pps.filterd (msscbjdcppmdmz01.maybank-my.mbb.dir [127.0.0.1])
+	by msscbjdcppmdmz01.maybank-my.mbb.dir (8.18.1.2/8.18.1.2) with ESMTP id 64C3e32X031770;
+	Tue, 12 May 2026 12:18:46 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maybank.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=MBB20221104; bh=LCC2NdMplzzqoUGqBtxYb6
+	nCbKd2OA2XT28qqfkzezY=; b=wZbQ4LDkRwTUva6dAmpjzUbBi2RhN4zHxqjwqs
+	a+Wpb1/rzqfFWWlF24RYLNWZmnpl8ZqFPR1HxGlF1PO4l7H842qzUvwYeXhxLvLu
+	mSA+fHYxOBQ8sLlQKiNsYTZewmZ/KRw9Iw4cwJdyUMaiG+4MfHBp0pzWRDnbqqdz
+	H9Cl9NVm6b8yEhbmuTT6A8But2ilUL7wH1zfUOHyykUB44oyWazmK9y0K62k3R43
+	AaXeC1w7XVkEdSzmt5Itrox0qUD8/E7ogkUwUA7WcBZHl7/bHnPnXAq9VsvMwLLR
+	vzGh2xb27QuyChAZT7farZTjzR6RuWfGFO92hPxyFvFwXfSg==
+Received: from edlp ([10.170.110.251])
+	by msscbjdcppmdmz01.maybank-my.mbb.dir (PPS) with ESMTP id 4e3nke0yek-1;
+	Tue, 12 May 2026 12:18:45 +0800 (WST)
+Received: from SECFPPCPRDAPP05 (SECFPPCPRDAPP05 [127.0.0.1])
+	by SECFPPCPRDAPP05.localdomain (Service) with ESMTP id 0D73EE00085;
+	Tue, 12 May 2026 12:18:44 +0800 (+08)
+Received: from CBJEXCHPRD10.MAYBANK-MY.MBB.DIR (CBJEXCHPRD10.MAYBANK-MY.MBB.DIR [10.170.103.2])
+	by SECFPPCPRDAPP05.localdomain (Service) with ESMTP id CC3C2E00084;
+	Tue, 12 May 2026 12:18:43 +0800 (+08)
+Received: from CBJEXCHPRD14.MAYBANK-MY.MBB.DIR (10.170.103.8) by
+ CBJEXCHPRD10.MAYBANK-MY.MBB.DIR (10.170.103.2) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.61; Tue, 12 May 2026 12:18:43 +0800
+Received: from CBJEXCHPRD14.MAYBANK-MY.MBB.DIR ([fe80::1811:3f00:ea4d:6d4]) by
+ CBJEXCHPRD14.MAYBANK-MY.MBB.DIR ([fe80::1811:3f00:ea4d:6d4%4]) with mapi id
+ 15.01.2507.061; Tue, 12 May 2026 12:18:43 +0800
+From: "TSU_LFXCONFIRMATIONS (SG)" <SG.tsu_lfxconfirmations@maybank.com>
+To: "otcsettlements@nomura.com" <otcsettlements@nomura.com>,
+        "niki.kutmutia@nomura.com" <niki.kutmutia@nomura.com>,
+        "ragini.gulhane@nomura.com" <ragini.gulhane@nomura.com>,
+        "Ramesh.Nadar@nomura.com" <Ramesh.Nadar@nomura.com>
+CC: "OPERATIONS - TSU (SG)" <SG.BOSTSU@maybank.com>,
+        "LEE KUAN HOONG JOSEPH
+ (SG)" <jleekh@maybank.com>,
+        "JESSIE TAY (SG)" <jessie.tay@maybank.com>,
+        "TSU_LFXCONFIRMATIONS (SG)" <SG.tsu_lfxconfirmations@maybank.com>,
+        "SANTIAGO
+ RIZALIZ COLINA (SG)" <Rizaliz.Santiago@maybank.com>
+Subject: MBBESGSG / NOMAGB2L01 - IRS/CCS SETTLEMENT VALUE  13 MAY 2026
+Thread-Topic: MBBESGSG / NOMAGB2L01 - IRS/CCS SETTLEMENT VALUE  13 MAY 2026
+Thread-Index: AQHc4cZrLDR+LEEnRE+ZQd+TnY1Ong==
+Date: Tue, 12 May 2026 04:18:43 +0000
+Message-ID: <2f87e5aa4bae407ab0e257d4985dbb27@maybank.com>
+References: <24d745596d51478a828381420a65dbee@maybank.com>
+ <7157c9cfe1094f97b94a82518aaa21f9@nomura.com>
+ <fd72beac1aa948ef9dcca81ff84c9e77@maybank.com>
+ <e477d78d99ce4d53b254d228949b4ebd@nomura.com>
+In-Reply-To: <e477d78d99ce4d53b254d228949b4ebd@nomura.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+x-dg-ref: PG1ldGE+PGF0IG5tPSJpbWFnZTAwMi5qcGciIHA9IiIgc3o9IjAiIHQ9IjAiIGg9IiIgaWQ9IiIgYmw9IjAiIGJvPSIwIi8+PC9tZXRhPg==
+x-dg-rorf: true
+msip_labels: MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_ActionId=879b7f2a-75e9-4cd0-b9da-891252c71a6a;MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_ContentBits=0;MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_Enabled=true;MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_Method=Standard;MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_Name=Restricted
+ - Internal Maybank Business and
+ Operation;MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_SetDate=2026-05-12T04:18:14Z;MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_SiteId=e67c29e3-790d-4801-a1cb-95eee6ade6cd;MSIP_Label_f8d85f71-924e-43d5-8ebc-6c6339db2990_Tag=10,
+ 3, 0, 1;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [10.170.103.251]
+X-Original-Content-Type: multipart/related;
+	boundary="_004_2f87e5aa4bae407ab0e257d4985dbb27maybankcom_";
+	type="multipart/alternative"
+Content-Type: multipart/related; type="multipart/alternative";
+	boundary="=_NextPart_fdedda9a20304b75b22bd95fe612fa6d"
+MIME-Version: 1.0
+X-Proofpoint-Spam-Reason: orgsafe
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=frvsol4f c=1 sm=1 tr=0 ts=6a02aa2a cx=c_pps
+ a=g7l1FY1XSpyyXuZuNey/WA==:117 a=g7l1FY1XSpyyXuZuNey/WA==:17
+ a=xqWC_Br6kY4A:10 a=Q9fXvo2yej8A:10 a=NGcC8JguVDcA:10 a=GcAYQ_bH7GIA:10
+ a=Kan8h273Bse8B8Jy5C1n:22 a=offKKlG28F1TGrr7-0xM:22 a=e97EuvnCvczugEGATFTo:22
+ a=3m37hhGe0WcmamTqjpYA:9 a=QEXdDO2ut3YA:10 a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8
+ a=2tNUZBlNCPCwDatqBAwA:9 a=a6UEeoAQW21xQZA4:21 a=gKO2Hq4RSVkA:10
+ a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10 a=frz4AuCg-hUA:10 a=lqcHg5cX4UMA:10
+ a=KQqxNPgzF0kA:10 a=VEiTNn8F7TgA:10
+X-Proofpoint-ORIG-GUID: wL8ib8kM3_-7B4rEf9aqFaG6QfCClIhB
+X-CLX-Shades: Deliver
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDAzNiBTYWx0ZWRfX7D/TM+iuofZx
+ E+a6AUcYZ0TAR3DMR/tiwGFR3FA7JsXeeJSEyV0esHe+4weEyUCaH2ba+vqfKNuwG7rj7a6fqGQ
+ CekVILo1FpPF9Fvz0nkXtJqGQyu9Ov2I/xNOjzYsLudMNA7HwfLANeMBZIgWW5ICYc9qhtLQdRZ
+ VHAFTpJtEk7tgv2P64zR/+tbZN1bLR50Pm5ubFuyDIZKhkIS8H48145cdZFIiEjKXJtOZ0SnU4z
+ P1uNl1D0+idHfAOJqF8m8WQx4JtwWn/ZGFnyhDlUNysIU2qPGVZuZGD8ZFExTyULqxLw2lKShtx
+ 1KiRLIj2rHtU7qPaFQjQCntsewwhnowN7g8q0hs06l31nUSblfe8p1pYMbOcm8dIp11zDFcWiUN
+ iiMtKd9uslhYBxZnL884mIzecjQHZ2sFRi7B3Q9jvcTL780oSnChsL64iba4RVgOyIfJb2npVy6
+ Ql1oNjTn4H/ESzgdi8vOrqY/Kdv1LuPwk3DKRt0HNCTz0+/Hyh8bFx6x3ooq0
+X-CLX-Response: 1enkXbk9GQ1xPWBEKelkXGxoaHxEKeloXExoRCkxZFxgYGhEKTHoXExoRCll
+ EF2sZenB9W3AbfWZPEQpYWBdrXn14E1tLTlpsTxEKeE4XbkhiG0gTS0ljbm8RCnlMF24SYBwYEn
+ hkTk9IEQpDSBcHGxkaEQpDWRcHExkRCkNJFxoEGhoaEQpZTRdnZnIRCllJFxpxGhAadwYYGhpxE
+ xIQGncGGBoGGhEKWV4XbGx5EQpJRhdERUdfWEt1GHVCRVleT04RCklHF3hPTREKQ04XXWYSQ0gS
+ QWcZdQcdaB5Yb0wTS1tsS20ce0xpaUZjQmgRClhcFx8EGgQeGBoFGxoEGxoaBBsZHgQZHxAbHho
+ fGhEKXlkXQmVvHWwRCk1cFxsTGBEKTFoXaXhvTU1DEQpFWRdvEQpMXxd6BQUFBQUFBQUFQxEKTE
+ YXb29ra2JraxEKQk8XZGx4eXsba0BiSBwRCkNaFxsaGQQfGwQfGgQbHhIRCkJeFxsRCkRYFx4RC
+ kReFxIRCkRJFx8RCkJcFxsRCl5OFxsRCkJLF25IYhtIE0tJY25vEQpCSRduSGIbSBNLSWNubxEK
+ QkUXYW4cXFxpbktlT3wRCkJOF25IYhtIE0tJY25vEQpCTBdrXn14E1tLTlpsTxEKQmwXYUJgTEV
+ YWWBQBXIRCkJAF2Riem94fGlkZ09wEQpNXhcbEQpaWBcYEQp5QxdrHnoTW2EeYnpoaxEKWUsXGx
+ obExMRCnBnF2NmXl5/Rx9nfhl5EBMTEQpwaBdhYFIYGHNOHE1tUhAaEQpwaBdlaV5uZhx5UHJHc
+ BAaEQpwaBd6T05geR1iTgUeaxAaEQpwaBdtSUReeUx5WBxHQRAaEQpwaBd6f2ZQW21aZmVJexAZ
+ GhEKcGgXa0hoGUEFGnlJengQHBoRCnBoF2kecFpjWEBlY2QaEBsaGREKcGgXYUV5YnNHextyZWE
+ QGhEKcGMXaB1+ZVBGW1sTQWIQGRoRCnBsF3poZAVmBUVMXlJLEBkaEQptfhcbEQpYTRdLESA=
+X-Proofpoint-GUID: wL8ib8kM3_-7B4rEf9aqFaG6QfCClIhB
+X-Proofpoint-Banner-Trigger: inbound
+X-Proofpoint-Virus-Version:
+X-Proofpoint-Spam-Details: rule=inbound_default_notspam policy=inbound_default
+ score=0 bulkscore=0 priorityscore=90 suspectscore=0 impostorscore=0
+ clxscore=1005 lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=inbound adjust=0 reason=mlx scancount=2 engine=8.22.0-2605050000
+ definitions=main-2605120036 domainage_hfrom=10199
+X-Proofpoint-Trusted-Source: Yes
+X-Proofpoint-Defang: false
+Return-Path: prvs=65925ab2d7=sg.tsu_lfxconfirmations@maybank.com
+X-MS-Exchange-Organization-Network-Message-Id: 427f1c4f-7435-4a0a-6122-08deafdd93bf
+X-MS-Exchange-Organization-AuthSource: AMP016238.AMERICAS.NOM
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 10
+X-MS-Exchange-Organization-AVStamp-Enterprise: 1.0
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:03.6173905
+X-MS-Exchange-Processed-By-BccFoldering: 15.01.2507.064
+
+--=_NextPart_fdedda9a20304b75b22bd95fe612fa6d
+Content-Type: multipart/alternative;
+	boundary="=_NextPart_bf2eb4f104c54bf6b43768750529687a"
+
+--=_NextPart_bf2eb4f104c54bf6b43768750529687a
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Team, Kindly confirm settlement below. ENTITY SEG CPTY Internal Status V=
+AL DATE FO DEAL CP NAME CCY Total SD EXT NOMAGB2L01 In Progress 13 May 2026=
+ 29700 NOMURA INTERNATIONAL PLC LONDON CNH (1,154,540.=E2=80=8A63) SD EXT N=
+OMAGB2L01 In Progress 13
+ZjQcmQRYFpfptBannerStart
+&lt; CAUTION: THIS EMAIL HAS BEEN SENT FROM AN EXTERNAL SENDER &gt;=20
+Do not click any links, open attachments or reply if you do not believe tha=
+t the email is legitimate. If in doubt, report using the report email butto=
+n or email to SPAM SUBMISSIONS.=20
+=20
+ZjQcmQRYFpfptBannerEnd
+=20
+Hi Team,
+=20
+Kindly confirm settlement below.
+=20
+ENTITY	SEG	CPTY	Internal Status	VAL DATE	FO DEAL	CP NAME	CCY	Total	SD	EXT	N=
+OMAGB2L01	In Progress	13 May 2026	29700	NOMURA INTERNATIONAL PLC LONDON	CNH=
+	(1,154,540.63)	SD	EXT	NOMAGB2L01	In Progress	13 May 2026	29700	NOMURA INTE=
+RNATIONAL PLC LONDON	USD	228,991.25 	=20
+Positive amount =E2=80=93 Maybank receive
+Negative amount =E2=80=93 Maybank pay
+=20
+=20
+Thank you.
+=20
+Regards,
+=20
+Riz Santiago
+Treasury Settlement Unit
+2 Battery Road, #11-01 Maybank Tower
+Singapore 049907
+DID: &#43;65 6550 7069 | FAX: &#43;65 6538 8353
+=20
+=20
+
+  ________________________________ =20
+This message is intended only for the use of the person to whom it is expre=
+ssly addressed and for the purpose of the subject of this email and may con=
+tain information that is confidential and legally privileged. If you are no=
+t the intended recipient, you are hereby notified that any use, reliance on=
+, reference to, review, disclosure or copying of the message and the inform=
+ation it contains for any purpose is prohibited. If you have received this =
+message in error, please notify the sender by reply e-mail of the misdelive=
+ry and delete all its contents.=20
+Opinions, conclusions and other information in this message that do not rel=
+ate to the official business of Malayan Banking Berhad shall be understood =
+as neither given nor endorsed by it.=20
+
+
+--=_NextPart_bf2eb4f104c54bf6b43768750529687a
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!-- BaNnErBlUrFlE-BoDy-start --><!-- Preheader Text : BEGIN --><meta http-=
+equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></Head><div s=
+tyle=3D"display:none !important;display:none;visibility:hidden;mso-hide:all=
+;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;opacity:0;overf=
+low:hidden;">Hi Team, Kindly confirm settlement below. ENTITY SEG CPTY Inte=
+rnal Status VAL DATE FO DEAL CP NAME CCY Total SD EXT NOMAGB2L01 In Progres=
+s 13 May 2026 29700 NOMURA INTERNATIONAL PLC LONDON CNH (1,154,540.=E2=80=
+=8A63) SD EXT NOMAGB2L01 In Progress 13</Div><!-- Preheader Text : END --><=
+!-- Email Banner : BEGIN --><div style=3D"display:none !important;display:n=
+one;visibility:hidden;mso-hide:all;font-size:1px;color:#ffffff;line-height:=
+1px;max-height:0px;opacity:0;overflow:hidden;">ZjQcmQRYFpfptBannerStart</Di=
+v><!--[if ((ie)|(mso))]>
+  <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" width=3D"100%" st=
+yle=3D"padding: 0px 0px 10px 0px; direction: ltr" lang=3D"en"><tr><td>
+    <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" style=3D"paddin=
+g: 0px 8px 6px 8px; width: 100%; border-radius:4px; border-top:4px solid #9=
+0a4ae;background-color:#d0d8dc;"><tr><td valign=3D"top">
+      <table align=3D"left" border=3D"0" cellspacing=3D"0" cellpadding=3D"0=
+" style=3D"padding: 0px 8px 4px 8px; font-size: 12px; line-height: 16px">
+	<tr><td style=3D"color:#000000; font-family: 'Arial', sans-serif; font-wei=
+ght:bold; font-size:14px; line-height: 20px; direction: ltr">
+	  <font color=3D"#8B0000"><b>&lt; CAUTION: THIS EMAIL HAS BEEN SENT FROM A=
+N EXTERNAL SENDER &gt;</b></font>
+	</td></tr>
+	<tr><td style=3D"color:#000000; font-weight:normal; font-family: 'Arial', =
+sans-serif; font-size:12px; direction: ltr">
+          <font color=3D"#8B0000">Do not click any links, open attachments =
+or reply if you do not believe that the email is legitimate. If in doubt, r=
+eport using the report email button or email to SPAM SUBMISSIONS.</font>
+	</td></tr>
+
+      </table>
+
+    </td></tr></table>
+  </td></tr></table>
+<![endif]--><![if !((ie)|(mso))]><div dir=3D"ltr" lang=3D"en" id=3D"pfptBan=
+neruyp4amc" style=3D"all: revert !important; display:block !important; text=
+-align: left !important; margin: 0 0 10px 0 !important; padding:7px 16px 8p=
+x 16px !important; border-radius: 4px !important; min-width: 200px !importa=
+nt; background-color: #d0d8dc !important; background-color: #d0d8dc; border=
+-top: 4px solid #90a4ae !important; border-top: 4px solid #90a4ae;"><div id=
+=3D"pfptBanneruyp4amc" style=3D"all: unset !important; float:left !importan=
+t; display:block !important; margin: 1px 0 1px 0 !important; max-width: 600=
+px !important;"><div id=3D"pfptBanneruyp4amc" style=3D"all: unset !importan=
+t; display:block !important; visibility: visible !important; background-col=
+or: #d0d8dc !important; color:#000000 !important; color:#000000; font-famil=
+y: 'Arial', sans-serif !important; font-family: 'Arial', sans-serif; font-w=
+eight:bold !important; font-weight:bold; font-size:14px !important; line-he=
+ight:1.29 !important; line-height:1.29"><font color=3D"#8B0000"><b>&lt; CAU=
+TION: THIS EMAIL HAS BEEN SENT FROM AN EXTERNAL SENDER &gt;</B></Font> </Di=
+v><div id=3D"pfptBanneruyp4amc" style=3D"all: unset !important; display:blo=
+ck !important; visibility: visible !important; background-color: #d0d8dc !i=
+mportant; color:#000000 !important; color:#000000; font-weight:normal; font=
+-family: 'Arial', sans-serif !important; font-family: 'Arial', sans-serif; =
+font-size:12px !important; line-height:1.5 !important; line-height:1.5; mar=
+gin-top:2px !important;"><font color=3D"#8B0000">Do not click any links, op=
+en attachments or reply if you do not believe that the email is legitimate.=
+ If in doubt, report using the report email button or email to SPAM SUBMISS=
+IONS.</Font> </Div></Div><div style=3D"clear: both !important; display: blo=
+ck !important; visibility: hidden !important; line-height: 0 !important; fo=
+nt-size: 0.01px !important; height: 0px">&nbsp;</Div></Div><![endif]><div s=
+tyle=3D"display:none !important;display:none;visibility:hidden;mso-hide:all=
+;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;opacity:0;overf=
+low:hidden;">ZjQcmQRYFpfptBannerEnd</Div><!-- Email Banner : END --><!-- Ba=
+NnErBlUrFlE-BoDy-end --><!-- BaNnErBlUrFlE-HeAdEr-start --><style>
+  #pfptBanneruyp4amc { all: revert !important; display: block !important;
+    visibility: visible !important; opacity: 1 !important;
+    background-color: #d0d8dc !important;
+    max-width: none !important; max-height: none !important }
+  .pfptPrimaryButtonuyp4amc:hover, .pfptPrimaryButtonuyp4amc:focus {
+    background-color: #b4c1c7 !important; }
+  .pfptPrimaryButtonuyp4amc:active {
+    background-color: #90a4ae !important; }
+  html:root, html:root>body { all: revert !important; display: block !impor=
+tant;
+    visibility: visible !important; opacity: 1 !important; }
+</Style><!-- BaNnErBlUrFlE-HeAdEr-end --><meta name=3D"Generator" content=
+=3D"Microsoft Word 15 (filtered medium)"><!--[if !mso]><style>v\:* {behavio=
+r:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Aptos Narrow";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+span.EmailStyle21
+	{mso-style-type:personal-reply;
+	font-family:"Aptos",serif;
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></Style><div class=3D"WordSection1"><p class=3D"MsoNormal"><span style=
+=3D"font-size:11.0pt;font-family:"Aptos",serif;color:#1F497D"><o:p>&nbsp;</=
+o:p></Span></P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-si=
+ze:11.0pt;font-family:"Aptos",serif;color:#1F497D">Hi Team,<o:p></o:p></Spa=
+n></P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt=
+;font-family:"Aptos",serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></P><p cl=
+ass=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-famil=
+y:"Aptos",serif;color:#1F497D">Kindly confirm settlement below.<o:p></o:p><=
+/Span></P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11=
+.0pt;font-family:"Aptos",serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></P><=
+table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"margin-left:-.15pt;border-collapse:collapse"><tbody><tr sty=
+le=3D"height:15.0pt"><td nowrap=3D"" valign=3D"bottom" style=3D"border:soli=
+d windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"M=
+soNormal"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:=
+black">ENTITY<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" s=
+tyle=3D"border:solid windowtext 1.0pt;border-left:none;padding:0cm 5.4pt 0c=
+m 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.0=
+pt;font-family:"Aptos Narrow";color:black">SEG<o:p></o:p></Span></P></TD><t=
+d nowrap=3D"" valign=3D"bottom" style=3D"border:solid windowtext 1.0pt;bord=
+er-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNorm=
+al"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:black"=
+>CPTY<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" style=3D"=
+border:solid windowtext 1.0pt;border-left:none;padding:0cm 5.4pt 0cm 5.4pt;=
+height:15.0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-=
+family:"Aptos Narrow";color:black">Internal Status<o:p></o:p></Span></P></T=
+D><td nowrap=3D"" valign=3D"bottom" style=3D"border:solid windowtext 1.0pt;=
+border-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"Mso=
+Normal"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:bl=
+ack">VAL DATE<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" s=
+tyle=3D"border:solid windowtext 1.0pt;border-left:none;padding:0cm 5.4pt 0c=
+m 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.0=
+pt;font-family:"Aptos Narrow";color:black">FO DEAL<o:p></o:p></Span></P></T=
+D><td nowrap=3D"" valign=3D"bottom" style=3D"border:solid windowtext 1.0pt;=
+border-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"Mso=
+Normal"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:bl=
+ack">CP NAME<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" st=
+yle=3D"border:solid windowtext 1.0pt;border-left:none;padding:0cm 5.4pt 0cm=
+ 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.0p=
+t;font-family:"Aptos Narrow";color:black">CCY<o:p></o:p></Span></P></TD><td=
+ nowrap=3D"" valign=3D"bottom" style=3D"border:solid windowtext 1.0pt;borde=
+r-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNorma=
+l"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:black">=
+Total<o:p></o:p></Span></P></TD></TR><tr style=3D"height:15.0pt"><td nowrap=
+=3D"" valign=3D"bottom" style=3D"border:solid windowtext 1.0pt;border-top:n=
+one;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span=
+ style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:black">SD<o:p><=
+/o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" style=3D"border-top:=
+none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:sol=
+id windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"=
+MsoNormal"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color=
+:black">EXT<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" sty=
+le=3D"border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt=
+;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.=
+0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:"Ap=
+tos Narrow";color:black">NOMAGB2L01<o:p></o:p></Span></P></TD><td nowrap=3D=
+"" valign=3D"bottom" style=3D"border-top:none;border-left:none;border-botto=
+m:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 5.=
+4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span style=3D"font-siz=
+e:12.0pt;font-family:"Aptos Narrow";color:black">In Progress<o:p></o:p></Sp=
+an></P></TD><td nowrap=3D"" valign=3D"bottom" style=3D"border-top:none;bord=
+er-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid window=
+text 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal=
+" align=3D"right" style=3D"text-align:right"><span style=3D"font-size:12.0p=
+t;font-family:"Aptos Narrow";color:black">13 May 2026<o:p></o:p></Span></P>=
+</TD><td nowrap=3D"" valign=3D"bottom" style=3D"border-top:none;border-left=
+:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.=
+0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal" align=
+=3D"right" style=3D"text-align:right"><span style=3D"font-size:12.0pt;font-=
+family:"Aptos Narrow";color:black">29700<o:p></o:p></Span></P></TD><td nowr=
+ap=3D"" valign=3D"bottom" style=3D"border-top:none;border-left:none;border-=
+bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0=
+cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span style=3D"fon=
+t-size:12.0pt;font-family:"Aptos Narrow";color:black">NOMURA INTERNATIONAL =
+PLC LONDON<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" styl=
+e=3D"border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;=
+border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0=
+pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:"Apt=
+os Narrow";color:black">CNH<o:p></o:p></Span></P></TD><td nowrap=3D"" valig=
+n=3D"bottom" style=3D"border-top:none;border-left:none;border-bottom:solid =
+windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm =
+5.4pt;height:15.0pt"><p class=3D"MsoNormal" align=3D"right" style=3D"text-a=
+lign:right"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";colo=
+r:red">(1,154,540.63)</Span><span style=3D"font-size:12.0pt;font-family:"Ap=
+tos Narrow";color:black"><o:p></o:p></Span></P></TD></TR><tr style=3D"heigh=
+t:15.0pt"><td nowrap=3D"" valign=3D"bottom" style=3D"border:solid windowtex=
+t 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=
+=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";c=
+olor:black">SD<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" =
+style=3D"border-top:none;border-left:none;border-bottom:solid windowtext 1.=
+0pt;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:=
+15.0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:=
+"Aptos Narrow";color:black">EXT<o:p></o:p></Span></P></TD><td nowrap=3D"" v=
+align=3D"bottom" style=3D"border-top:none;border-left:none;border-bottom:so=
+lid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt =
+0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12=
+.0pt;font-family:"Aptos Narrow";color:black">NOMAGB2L01<o:p></o:p></Span></=
+P></TD><td nowrap=3D"" valign=3D"bottom" style=3D"border-top:none;border-le=
+ft:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext =
+1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><sp=
+an style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:black">In Pro=
+gress<o:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" style=3D"=
+border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;borde=
+r-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><=
+p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span styl=
+e=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:black">13 May 2026<o=
+:p></o:p></Span></P></TD><td nowrap=3D"" valign=3D"bottom" style=3D"border-=
+top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right=
+:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=
+=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span style=3D"fo=
+nt-size:12.0pt;font-family:"Aptos Narrow";color:black">29700<o:p></o:p></Sp=
+an></P></TD><td nowrap=3D"" valign=3D"bottom" style=3D"border-top:none;bord=
+er-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid window=
+text 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal=
+"><span style=3D"font-size:12.0pt;font-family:"Aptos Narrow";color:black">N=
+OMURA INTERNATIONAL PLC LONDON<o:p></o:p></Span></P></TD><td nowrap=3D"" va=
+lign=3D"bottom" style=3D"border-top:none;border-left:none;border-bottom:sol=
+id windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0=
+cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal"><span style=3D"font-size:12.=
+0pt;font-family:"Aptos Narrow";color:black">USD<o:p></o:p></Span></P></TD><=
+td nowrap=3D"" valign=3D"bottom" style=3D"border-top:none;border-left:none;=
+border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;pa=
+dding:0cm 5.4pt 0cm 5.4pt;height:15.0pt"><p class=3D"MsoNormal" align=3D"ri=
+ght" style=3D"text-align:right"><span style=3D"font-size:12.0pt;font-family=
+:"Aptos Narrow";color:black">228,991.25 <o:p></o:p></Span></P></TD></TR></T=
+body></Table><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size=
+:11.0pt;font-family:"Aptos",serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></=
+P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:"Aptos",=
+serif;color:#1F497D">Positive amount =E2=80=93 Maybank receive<o:p></o:p></=
+Span></P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:"=
+Aptos",serif;color:#1F497D">Negative amount =E2=80=93 Maybank pay<o:p></o:p=
+></Span></P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:=
+11.0pt;font-family:"Aptos",serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></P=
+><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font=
+-family:"Aptos",serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></P><p class=
+=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:"=
+Aptos",serif;color:#1F497D">Thank you.<o:p></o:p></Span></P><p class=3D"Mso=
+Normal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:"Aptos",=
+serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></P><p class=3D"MsoNormal"><sp=
+an lang=3D"EN-US" style=3D"font-family:"Aptos",serif;color:#1F497D">Regards=
+,<o:p></o:p></Span></P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D=
+"font-family:"Aptos",serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></P><p cl=
+ass=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:"Aptos",serif;c=
+olor:#1F497D">Riz Santiago<o:p></o:p></Span></P><p class=3D"MsoNormal"><spa=
+n lang=3D"EN-US" style=3D"font-family:"Aptos",serif;color:#1F497D">Treasury=
+ Settlement Unit<o:p></o:p></Span></P><p class=3D"MsoNormal"><span lang=3D"=
+EN-US" style=3D"font-family:"Aptos",serif;color:#1F497D">2 Battery Road, #1=
+1-01 Maybank Tower<o:p></o:p></Span></P><p class=3D"MsoNormal"><span lang=
+=3D"EN-US" style=3D"font-family:"Aptos",serif;color:#1F497D">Singapore 0499=
+07<o:p></o:p></Span></P><p class=3D"MsoNormal"><span lang=3D"EN-US" style=
+=3D"font-family:"Aptos",serif;color:#1F497D">DID: &#43;65 6550 7069 | FAX: =
+&#43;65 6538 8353<o:p></o:p></Span></P><p class=3D"MsoNormal"><span lang=3D=
+"EN-US" style=3D"font-family:"Aptos",serif;color:#1F497D"><img width=3D"624=
+" height=3D"42" style=3D"width:6.5in;height:.4375in" id=3D"Picture_x0020_14=
+73182587" src=3D"cid:image002.jpg@01DCE209.77A7C920"></Span><span style=3D"=
+font-size:11.0pt;font-family:"Aptos",serif;color:#1F497D"><o:p></o:p></Span=
+></P><p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:"Ap=
+tos",serif;color:#1F497D"><o:p>&nbsp;</o:p></Span></P><div><div><p class=3D=
+"MsoNormal"><span style=3D"font-size:11.0pt;font-family:"Aptos",serif;color=
+:#1F497D"><o:p></o:p></Span></P></Div></Div></Div><hr><p style=3D"font-size=
+:9pt; line-height:9pt; font-family: 'Calibri';">This message is intended on=
+ly for the use of the person to whom it is expressly addressed and for the =
+purpose of the subject of this email and may contain information that is co=
+nfidential and legally privileged. If you are not the intended recipient, y=
+ou are hereby notified that any use, reliance on, reference to, review, dis=
+closure or copying of the message and the information it contains for any p=
+urpose is prohibited. If you have received this message in error, please no=
+tify the sender by reply e-mail of the misdelivery and delete all its conte=
+nts. <br>
+Opinions, conclusions and other information in this message that do not rel=
+ate to the official business of Malayan Banking Berhad shall be understood =
+as neither given nor endorsed by it. <br>
+</P></Body></Html>
+--=_NextPart_bf2eb4f104c54bf6b43768750529687a--
+
+--=_NextPart_fdedda9a20304b75b22bd95fe612fa6d
+Content-Type: image/jpeg; name="image002.jpg"
+Content-Transfer-Encoding: base64
+Content-ID: <image002.jpg@01DCE209.77A7C920>
+Content-Disposition: inline; filename="image002.jpg"; size=5310
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsK
+CwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQU
+FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAArAn4DASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7Aooo
+r/NQ/aAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA
+KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
+oooAKKKKACiiigAooooAKTtSdcfzPAryTXfixqGoaNca5peoaX4W8Hxlkg17V4WubjVGAP8Ax5Ww
+dAVJBCOzEv1VNuGPsZfllfMZNUtEt29vTu2+yTf3HPVrRoq8tz12ivmjw7+0Nr9t4mj0q71XSdYm
+uizafp2qW66Vd36qwVo45N5jjuRlGFvKoDLIhEgJZV+gfC3iaw8Y6Ha6vpjyPa3AYbJkMcsUisVk
+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
+LAFFFFFgP//Z
+--=_NextPart_fdedda9a20304b75b22bd95fe612fa6d--
