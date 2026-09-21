@@ -1,0 +1,223 @@
+[0:00:37.443] Script completed in scope global: script
+Script execution history and recovery available here
+*** Script: [LOG] ================================================================
+*** Script: [LOG] searching the last 72h for: Nomura PAYMENT CONFIRMATION
+*** Script: [LOG] ================================================================
+Time: 0:00:10.717 id: nomurabsmdev_1[glide.1] primary_hash=1331058462 (connpid=100310) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%Nomura PAYMENT CONFIRMATION%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%Nomura PAYMENT CONFIRMATION%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%Nomura PAYMENT CONFIRMATION%') ORDER BY "order_0" NULLS FIRST LIMIT 120 OFFSET 0
+*** Script: [LOG] ---- lines naming this mail ----
+*** Script: [LOG] 2026-09-21 14:15:33 [0] [BIG] mail        : Nomura PAYMENT CONFIRMATION...
+*** Script: [LOG] 2026-09-21 14:15:33 [0] [BIG] name              Nomura PAYMENT CONFIRMATION FOR VALUE 18-Aug-26.eml
+*** Script: [LOG] 2026-09-21 14:15:33 [2] JavaScript evaluation error on:
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the environment that is failing, e.g.  NexAI OTC BSM   (x_no
+*** Script: [LOG] 2026-09-21 14:15:33 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the en
+*** Script: [LOG] 2026-09-21 14:15:33 [0] [BIG] attachment        Nomura PAYMENT CONFIRMATION FOR VALUE 18-Aug-26.eml   122888 bytes
+*** Script: [LOG] 2026-09-21 14:24:13 [0] [BIG] mail        : Nomura PAYMENT CONFIRMATION...
+*** Script: [LOG] 2026-09-21 14:24:13 [0] [BIG] name              Nomura PAYMENT CONFIRMATION FOR VALUE 18-Aug-26.eml
+*** Script: [LOG] 2026-09-21 14:24:13 [0] [BIG] attachment        Nomura PAYMENT CONFIRMATION FOR VALUE 18-Aug-26.eml   122888 bytes
+*** Script: [LOG] 2026-09-21 14:24:13 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the en
+*** Script: [LOG] 2026-09-21 14:24:13 [0] [BIG]     var l=new GlideRecord("syslog"); l.addEncodedQuery("messageLIKENomura PAYMENT CONFIRMATION FO"); l.orderByDesc("sys_created_on"); l.setLimit(20); l.query();
+*** Script: [LOG] 2026-09-21 14:26:40 [0] [STATE] 0     (none)     no       relevant   Nomura PAYMENT CONFIRMATION FOR VALUE 18-Aug-26.eml
+*** Script: [LOG] 2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute in sandbox?" UNCHECK
+*** Script: [LOG] 2026-09-21 14:30:01 [0] [LOG] searching the last 72h for: Nomura PAYMENT CONFIRMATION
+*** Script: [LOG]
+*** Script: [LOG] ---- failure signatures in the same window ----
+Time: 0:00:04.860 id: nomurabsmdev_1[glide.1] primary_hash=1331058462 (connpid=100310) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%ECCResponseTimeout%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%ECCResponseTimeout%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%ECCResponseTimeout%') ORDER BY "order_0" DESC NULLS LAST LIMIT 12 OFFSET 0
+*** Script: [LOG] == "ECCResponseTimeout"  (the 30-second MID/ECC wall)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG]    2026-09-21 14:24:13 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+*** Script: [LOG]    2026-09-21 14:15:33 [2] JavaScript evaluation error on:
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the environment that is failing, e.g.  N
+*** Script: [LOG]    2026-09-21 14:15:33 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+*** Script: [LOG]    2026-09-21 13:03:34 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHICH MAIL DID NOT EXTRACT, AND WHY
+ *
+ * Scripts - Background. "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the envir
+Time: 0:00:04.657 id: nomurabsmdev_1[glide.1] primary_hash=1331058462 (connpid=100310) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%30 seconds%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%30 seconds%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%30 seconds%') ORDER BY "order_0" DESC NULLS LAST LIMIT 12 OFFSET 0
+*** Script: [LOG] == "30 seconds"  (the 30-second MID/ECC wall)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG]    2026-09-21 13:03:34 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHICH MAIL DID NOT EXTRACT, AND WHY
+ *
+ * Scripts - Background. "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the envir
+Time: 0:00:04.401 id: nomurabsmdev_1[glide.1] primary_hash=1331058462 (connpid=100310) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%max\_tokens%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%max\_tokens%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%max\_tokens%') ORDER BY "order_0" DESC NULLS LAST LIMIT 12 OFFSET 0
+*** Script: [LOG] == "max_tokens"  (reply length ceiling)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG]    2026-09-21 14:24:13 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+*** Script: [LOG]    2026-09-21 14:15:33 [2] JavaScript evaluation error on:
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the environment that is failing, e.g.  N
+*** Script: [LOG]    2026-09-21 14:15:33 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+Time: 0:00:04.850 id: nomurabsmdev_1[glide.1] primary_hash=1331058462 (connpid=100310) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%truncat%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%truncat%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%truncat%') ORDER BY "order_0" DESC NULLS LAST LIMIT 12 OFFSET 0
+*** Script: [LOG] == "truncat"  (reply was cut short)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG]    2026-09-21 14:24:13 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] wall or the reply was truncated.
+*** Script: [LOG]    2026-09-21 14:15:33 [2] JavaScript evaluation error on:
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the environment that is failing, e.g.  N
+*** Script: [LOG]    2026-09-21 14:15:33 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+Time: 0:00:03.720 id: nomurabsmdev_1[glide.2] primary_hash=1331058462 (connpid=100312) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%LLMError%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%LLMError%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%LLMError%') ORDER BY "order_0" DESC NULLS LAST LIMIT 12 OFFSET 0
+*** Script: [LOG] == "LLMError"  (Chinou refused the call)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG] == "chunk"  (chunking activity)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] ---------------- 1. is the chunking code installed? ----------------
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] extract.chunk_threshold   12
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] extract.chunk_budget_s    15
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] extract.chunk_overhead_s  9
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] extract.chunk_sec_per_row 0   (0 means derive from the field count)
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] extract.chunk_cap         4   (concurrency, NOT the number of chunks)
+*** Script: [LOG]    2026-09-21 14:24:13 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] VERDICT: ZERO rows. Read section 1 first - if chunking is missing, that is the
+*** Script: [LOG]    2026-09-21 14:23:24 [0] Table: sys_cache_flush, time: 0:00:00.003 {started=2026-09-21 10:23:24, bulk operations time=0:00:00.003, estimate time=0:00:00.000, deleteMethod=chunkDelete}
+*** Script: [LOG]    2026-09-21 14:15:33 [0] [BIG] ---------------- 1. is the chunking code installed? ----------------
+*** Script: [LOG]    2026-09-21 14:15:33 [0] [BIG] extract.chunk_threshold   12
+Time: 0:00:03.756 id: nomurabsmdev_1[glide.2] primary_hash=1331058462 (connpid=100312) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%RowSegmenter%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%RowSegmenter%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%RowSegmenter%') ORDER BY "order_0" DESC NULLS LAST LIMIT 12 OFFSET 0
+*** Script: [LOG] == "RowSegmenter"  (the chunk planner)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG]    2026-09-21 14:24:13 [0] [BIG] RowSegmenter Script Include          PRESENT
+*** Script: [LOG]    2026-09-21 14:24:13 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+*** Script: [LOG]    2026-09-21 14:15:33 [0] [BIG] RowSegmenter Script Include          PRESENT
+*** Script: [LOG]    2026-09-21 14:15:33 [2] JavaScript evaluation error on:
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the environment that is failing, e.g.  N
+*** Script: [LOG]    2026-09-21 14:15:33 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHY DOES THE 61-ROW MAIL FAIL HERE WHEN IT WORKS ON EVAL?
+ *
+ * Scripts - Background.  "Execute in sandbox?" UNCHECKED.
+ * 
+Time: 0:00:00.186 id: nomurabsmdev_1[glide.2] primary_hash=1331058462 (connpid=100312) for: (SELECT syslog00000."sys_id", 'syslog0000' AS "sys_table_name", syslog00000."sys_created_on" AS "order_0" FROM syslog0000 syslog00000  WHERE syslog00000."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00000."message" LIKE '%WizardExtractor%') UNION ALL (SELECT syslog00070."sys_id", 'syslog0007' AS "sys_table_name", syslog00070."sys_created_on" AS "order_0" FROM syslog0007 syslog00070  WHERE syslog00070."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00070."message" LIKE '%WizardExtractor%') UNION ALL (SELECT syslog00010."sys_id", 'syslog0001' AS "sys_table_name", syslog00010."sys_created_on" AS "order_0" FROM syslog0001 syslog00010  WHERE syslog00010."sys_created_on" >= '2026-09-18 14:30:01+00' AND syslog00010."message" LIKE '%WizardExtractor%') ORDER BY "order_0" DESC NULLS LAST LIMIT 12 OFFSET 0
+*** Script: [LOG] == "WizardExtractor"  (the extractor itself)
+*** Script: [LOG]    2026-09-21 14:29:46 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * DID THE BIG MAIL EVER REACH THE MODEL, AND WHAT KILLED IT?
+ *
+ * Scripts - Background.  APPLICATION = **Global**.  "Execute 
+*** Script: [LOG]    2026-09-21 13:59:18 [0] [WizardExtractor] email=33e8d5dceb6f83103aa5f8f7fcd0cddf is big (61 rows, html) — extracting in 8 concurrent calls (cap 4).
+*** Script: [LOG]    2026-09-21 13:59:18 [1] [WizardExtractor] no rows for email=33e8d5dceb6f83103aa5f8f7fcd0cddf (status=error, source=text, pdfs=0) raw=TypeError: Cannot find function invokeBatch in object [object Object].
+*** Script: [LOG]    2026-09-21 13:03:34 [0] Background Script run by: muralia on app133042.aus101.service-now.com:nomurabsmdev013
+/**
+ * WHICH MAIL DID NOT EXTRACT, AND WHY
+ *
+ * Scripts - Background. "Execute in sandbox?" UNCHECKED.
+ * APPLICATION = the envir
+*** Script: [LOG]    2026-09-21 13:01:11 [0] [WizardExtractor] email=376a451ceb2f83103aa5f8f7fcd0cdd4 is big (61 rows, html) — extracting in 8 concurrent calls (cap 4).
+*** Script: [LOG]    2026-09-21 13:01:11 [1] [WizardExtractor] no rows for email=376a451ceb2f83103aa5f8f7fcd0cdd4 (status=error, source=text, pdfs=0) raw=TypeError: Cannot find function invokeBatch in object [object Object].
+*** Script: [LOG]    2026-09-21 12:59:00 [0] [WizardExtractor] email=376a451ceb2f83103aa5f8f7fcd0cdd4 is big (61 rows, html) — extracting in 8 concurrent calls (cap 4).
+*** Script: [LOG]    2026-09-21 12:59:00 [1] [WizardExtractor] no rows for email=376a451ceb2f83103aa5f8f7fcd0cdd4 (status=error, source=text, pdfs=0) raw=TypeError: Cannot find function invokeBatch in object [object Object].
+*** Script: [LOG]    2026-09-21 12:57:48 [0] [WizardExtractor] email=376a451ceb2f83103aa5f8f7fcd0cdd4 is big (61 rows, html) — extracting in 8 concurrent calls (cap 4).
+*** Script: [LOG]    2026-09-21 12:57:48 [1] [WizardExtractor] no rows for email=376a451ceb2f83103aa5f8f7fcd0cdd4 (status=error, source=text, pdfs=0) raw=TypeError: Cannot find function invokeBatch in object [object Object].
+*** Script: [LOG]    2026-09-21 12:26:36 [1] [WizardExtractor] no rows for email=2f610d9cebeb83103aa5f8f7fcd0cd18 (status=empty_response, source=text, pdfs=0) raw=HTTP 0: null
+*** Script: [LOG]    2026-09-21 12:25:44 [1] [WizardExtractor] no rows for email=c0710d9cebeb83103aa5f8f7fcd0cd97 (status=empty_response, source=text, pdfs=0) raw=HTTP 401: {"detail":"Not authenticated"}
+*** Script: [LOG]
+*** Script: [LOG] ================================================================
+*** Script: [LOG] HOW TO READ THIS
+*** Script: [LOG] ECCResponseTimeout / "30 seconds" -> lower extract.chunk_budget_s 15 to 12.
+*** Script: [LOG] max_tokens / truncated / bad JSON  -> raise max_tokens on the Chinou client.
+*** Script: [LOG] chunk lines present but few        -> chunking ran; count what came back.
+*** Script: [LOG] LLMError                           -> Chinou-side, not our code.
+*** Script: [LOG] ================================================================
