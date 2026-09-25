@@ -1,138 +1,56 @@
-/**
- * The calls succeed but return nothing usable. What model is answering, and what is it sending back?
- *
- * 123 calls, 1 failure, and six mails that extract fine on eval produced zero rows here. That rules out
- * the lost-chunk problem: the model is being reached and is replying. So the question is what it replies
- * WITH, and whether it is even the same model.
- *
- * The three columns that settle it are already recorded on every call: model, response_chars, and
- * prompt_chars. A reply of a few dozen characters to a 10,000 character prompt is a refusal or an empty
- * array, not an extraction.
- *
- * READ-ONLY. Nothing is written.
- *
- * NOTE on the previous script: its syslog section failed because a scoped application cannot read
- * syslog, and the catch block then touched e.message on the platform's own security exception, which is
- * itself fenced. This one never reads syslog and never touches a caught exception's members.
- *
- * Run: Background Scripts, Application "NexAI OTC Test", "Run in scoped application" ticked.
- */
-(function () {
-    var SCOPE = 'x_nose_nexai_test';
-    var MINUTES = 120;
-
-    function line() { gs.info('------------------------------------------------------------------'); }
-    function safe(fn, label) {
-        try { return fn(); } catch (e) { gs.warn('   (' + label + ' unavailable in this scope)'); return null; }
-    }
-
-    var scope = '';
-    try { scope = '' + gs.getCurrentScopeName(); } catch (e) { scope = '?'; }
-    if (scope !== SCOPE) { gs.error('ABORT. Must run in ' + SCOPE + '; got "' + scope + '".'); return; }
-    gs.info('Scope OK: ' + scope);
-
-    // ---------------------------------------------------------------- 1. which model
-    line();
-    gs.info('1. WHICH MODEL IS ANSWERING');
-    var props = ['chinou.model.id', 'chinou.reg.id', 'x_nose_gmet_app.chinou.model.id',
-                 SCOPE + '.chinou.model.id'];
-    for (var p = 0; p < props.length; p++) {
-        var v = gs.getProperty(props[p], null);
-        gs.info('   ' + props[p] + ' = ' + (v === null || v === '' ? '(not set)' : v));
-    }
-
-    var since = new GlideDateTime();
-    since.addSeconds(-60 * MINUTES);
-    var sinceStr = '' + since;
-
-    var models = {};
-    var lu = new GlideRecord(SCOPE + '_llm_usage');
-    lu.addQuery('sys_created_on', '>=', sinceStr);
-    lu.query();
-    var n = 0;
-    while (lu.next()) {
-        n++;
-        var m = '' + (lu.getValue('model') || '(blank)');
-        models[m] = (models[m] || 0) + 1;
-    }
-    gs.info('   models actually used across ' + n + ' calls in the last ' + MINUTES + ' min:');
-    var k;
-    for (k in models) { if (models.hasOwnProperty(k)) { gs.info('      ' + models[k] + ' x  ' + k); } }
-    gs.info('   eval, for comparison, answers on anthropic-5-sonnet[Bedrock].');
-
-    // ---------------------------------------------------------------- 2. what came back
-    line();
-    gs.info('2. WHAT THE MODEL SENT BACK, FOR THE MAILS THAT PRODUCED NOTHING');
-
-    // the relevant mails with no rows and no wiz_extracted stamp
-    var cf = {};
-    var ag = new GlideAggregate(SCOPE + '_cashflow');
-    ag.groupBy('email');
-    ag.addAggregate('COUNT');
-    ag.query();
-    while (ag.next()) { cf['' + ag.getValue('email')] = parseInt(ag.getAggregate('COUNT'), 10); }
-
-    var stuck = [];
-    var eg = new GlideRecord(SCOPE + '_email');
-    eg.addQuery('classification', 'relevant');
-    eg.query();
-    while (eg.next()) {
-        var id = eg.getUniqueValue();
-        if (('' + (eg.getValue('wiz_extracted') || '')) !== '') { continue; }
-        stuck.push({ id: id, subj: '' + (eg.getValue('mail_subject') || eg.getValue('name') || ''),
-                     res: '' + (eg.getValue('ai_result') || ''), rows: cf[id] || 0 });
-    }
-    gs.info('   mails with no rows: ' + stuck.length);
-
-    // the six that WORK on eval - these are the interesting ones, the rest are known blocked
-    var INTERESTING = ['Deutsche Bank', 'NGFP Payment', 'NFPS Payment', 'NIP Arrangement',
-                       'Settlement Confirmation - 21'];
-    for (var s = 0; s < stuck.length; s++) {
-        var it = stuck[s];
-        var want = false;
-        for (var w = 0; w < INTERESTING.length; w++) {
-            if (it.subj.indexOf(INTERESTING[w]) > -1) { want = true; }
-        }
-        if (!want) { continue; }
-        gs.info('');
-        gs.info('   >>> ' + it.subj.substring(0, 76));
-        if (it.res) { gs.info('       ai_result on the record: ' + it.res.substring(0, 180)); }
-        var q = new GlideRecord(SCOPE + '_llm_usage');
-        q.addQuery('email_id', it.id);
-        q.addQuery('sys_created_on', '>=', sinceStr);
-        q.orderBy('sys_created_on');
-        q.query();
-        while (q.next()) {
-            var pc = parseInt(q.getValue('prompt_chars'), 10) || 0;
-            var rc = parseInt(q.getValue('response_chars'), 10) || 0;
-            gs.info('       ' + ('' + q.getValue('sys_created_on')).substring(11) +
-                '  ' + (q.getValue('field_name') || '-') +
-                '  ok=' + q.getValue('success') +
-                '  prompt=' + pc + 'ch  RESPONSE=' + rc + 'ch' +
-                '  chinou=' + (q.getValue('chinou_ms') || 0) + 'ms' +
-                '  model=' + ('' + q.getValue('model')).substring(0, 28));
-            var er = '' + (q.getValue('error') || '');
-            if (er) { gs.info('          error: ' + er.substring(0, 150)); }
-        }
-    }
-
-    // ---------------------------------------------------------------- 3. the pattern
-    line();
-    gs.info('3. RESPONSE SIZE ACROSS EVERYTHING IN THE WINDOW');
-    var buckets = { 'empty (0)': 0, 'tiny (1-40)': 0, 'small (41-200)': 0, 'real (200+)': 0 };
-    var q2 = new GlideRecord(SCOPE + '_llm_usage');
-    q2.addQuery('sys_created_on', '>=', sinceStr);
-    q2.query();
-    while (q2.next()) {
-        var r2 = parseInt(q2.getValue('response_chars'), 10) || 0;
-        if (r2 === 0) { buckets['empty (0)']++; }
-        else if (r2 <= 40) { buckets['tiny (1-40)']++; }
-        else if (r2 <= 200) { buckets['small (41-200)']++; }
-        else { buckets['real (200+)']++; }
-    }
-    for (k in buckets) { if (buckets.hasOwnProperty(k)) { gs.info('   ' + k + ' : ' + buckets[k]); } }
-    gs.info('');
-    gs.info('   A large prompt answered with 0 or a handful of characters means the model replied');
-    gs.info('   with nothing or an empty array - it was reached, it just did not extract. That is a');
-    gs.info('   model or prompt problem, not a timeout and not a lost chunk.');
-})();
+[0:00:00.248] Script completed in scope x_nose_nexai_test: script
+Script execution history and recovery available here
+x_nose_nexai_test: Scope OK: x_nose_nexai_test
+x_nose_nexai_test: ------------------------------------------------------------------
+x_nose_nexai_test: 1. WHICH MODEL IS ANSWERING
+x_nose_nexai_test:    chinou.model.id = anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:    chinou.reg.id = AIUC00337
+x_nose_nexai_test:    x_nose_gmet_app.chinou.model.id = (not set)
+x_nose_nexai_test:    x_nose_nexai_test.chinou.model.id = (not set)
+x_nose_nexai_test:    models actually used across 123 calls in the last 120 min:
+x_nose_nexai_test:       123 x  anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:    eval, for comparison, answers on anthropic-5-sonnet[Bedrock].
+x_nose_nexai_test: ------------------------------------------------------------------
+x_nose_nexai_test: 2. WHAT THE MODEL SENT BACK, FOR THE MAILS THAT PRODUCED NOTHING
+x_nose_nexai_test:    mails with no rows: 15
+x_nose_nexai_test: 
+x_nose_nexai_test:    >>> NIP Arrangement Fees and swaps between NIP and NEF value 20260819
+x_nose_nexai_test:        11:31:55  -  ok=true  prompt=19822ch  RESPONSE=2ch  chinou=2947.5810527801514ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:34:29  -  ok=true  prompt=19822ch  RESPONSE=2ch  chinou=3346.679925918579ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:41:56  -  ok=false  prompt=19822ch  RESPONSE=0ch  chinou=0ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:           error: HTTP 0: null
+x_nose_nexai_test: 
+x_nose_nexai_test:    >>> Settlement Confirmation - 21 Aug 2026 - 1885,1753,5913922,6842473,6598430 - 
+x_nose_nexai_test:        11:32:12  -  ok=true  prompt=23923ch  RESPONSE=41ch  chinou=3493.680953979492ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:35:22  -  ok=true  prompt=23923ch  RESPONSE=41ch  chinou=2849.3199348449707ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:43:21  -  ok=true  prompt=23923ch  RESPONSE=77ch  chinou=3057.819128036499ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test: 
+x_nose_nexai_test:    >>> Deutsche Bank Derivative Settlements Pre-Confirmation VD - 13 May 2026 - 13 
+x_nose_nexai_test:        11:29:32  -  ok=true  prompt=20976ch  RESPONSE=2ch  chinou=3090.3160572052ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:33:47  -  ok=true  prompt=20976ch  RESPONSE=2ch  chinou=2663.73610496521ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:40:33  -  ok=true  prompt=20976ch  RESPONSE=2ch  chinou=3252.1519660949707ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test: 
+x_nose_nexai_test:    >>> NFPS Payment Confirmation for value date 20260818(USD)
+x_nose_nexai_test:        11:31:14  -  ok=true  prompt=19838ch  RESPONSE=2ch  chinou=2663.5079383850098ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:34:35  -  ok=true  prompt=19838ch  RESPONSE=2ch  chinou=4115.206003189087ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:41:11  -  ok=true  prompt=19838ch  RESPONSE=2ch  chinou=2783.3659648895264ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test: 
+x_nose_nexai_test:    >>> NGFP Payment Confirmation for value date 20260821
+x_nose_nexai_test:        11:31:33  -  ok=true  prompt=19806ch  RESPONSE=2ch  chinou=3060.0831508636475ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:34:06  -  ok=true  prompt=19806ch  RESPONSE=2ch  chinou=3189.182996749878ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:41:27  -  ok=true  prompt=19806ch  RESPONSE=2ch  chinou=2712.1591567993164ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test: 
+x_nose_nexai_test:    >>> Deutsche Bank Derivative Settlements Pre-Confirmation VD - 18 August 2026 - 
+x_nose_nexai_test:        11:29:08  -  ok=true  prompt=20982ch  RESPONSE=2ch  chinou=2665.9538745880127ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:33:41  -  ok=true  prompt=20982ch  RESPONSE=2ch  chinou=3690.1888847351074ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test:        11:40:33  -  ok=true  prompt=20982ch  RESPONSE=2ch  chinou=3065.372943878174ms  model=anthropic-5-sonnet[Bedrock]
+x_nose_nexai_test: ------------------------------------------------------------------
+x_nose_nexai_test: 3. RESPONSE SIZE ACROSS EVERYTHING IN THE WINDOW
+x_nose_nexai_test:    empty (0) : 23
+x_nose_nexai_test:    tiny (1-40) : 40
+x_nose_nexai_test:    small (41-200) : 8
+x_nose_nexai_test:    real (200+) : 52
+x_nose_nexai_test: 
+x_nose_nexai_test:    A large prompt answered with 0 or a handful of characters means the model replied
+x_nose_nexai_test:    with nothing or an empty array - it was reached, it just did not extract. That is a
+x_nose_nexai_test:    model or prompt problem, not a timeout and not a lost chunk.
