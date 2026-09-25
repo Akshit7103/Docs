@@ -1,0 +1,46 @@
+[0:00:01.468] Script completed in scope x_nose_nexai_test: script
+Script execution history and recovery available here
+Operation	Table	Row Count
+insert	sys_user_preference	2
+delete	sys_user_preference	2
+insert	sys_metadata_customization	1
+update	x_nose_nexai_test_config	1
+insert	sys_scope_privilege	1
+...and another 3 affected table(s)
+View full summary here
+x_nose_nexai_test: Scope OK: x_nose_nexai_test
+x_nose_nexai_test: ------------------------------------------------------------------
+x_nose_nexai_test: 1. CONFIG - extract.chunk_cap on x_nose_nexai_test_config
+x_nose_nexai_test:    changed from 4 to 2
+x_nose_nexai_test:    PASS  extract.chunk_cap = 2
+x_nose_nexai_test: ------------------------------------------------------------------
+x_nose_nexai_test: 2. SCRIPT INCLUDE - GenericFieldExtractor
+Security restricted: Execute operation on API 'ScopedGlideElement' from scope 'NexAI OTC Test' was granted and added to 'NexAI OTC Test' cross scope privileges
+Attempted to switch to update set 0f99fc18fb6b431000d2f59f5eefdc0a which is out of the scope of application x_nose_22_septem_0
+x_nose_nexai_test:    copies of this name on the instance: 5
+x_nose_nexai_test:    length: 21627 chars   (expected 21259)
+x_nose_nexai_test:    FAIL  length matches the file that was handed over   off by 368 - the paste may be truncated or the source differed
+x_nose_nexai_test:    PASS  chunk retry helper present
+x_nose_nexai_test:    PASS  retry gate - a whole-batch failure never retries
+x_nose_nexai_test:    PASS  retry tagged in llm_usage
+x_nose_nexai_test:    PASS  usage recorder points at this scope
+x_nose_nexai_test:    PASS  no leftover x_nose_nfotc_bsm reference
+x_nose_nexai_test:    PASS  em dash count intact   found 14, expected 14
+x_nose_nexai_test:    PASS  no mojibake from the paste
+x_nose_nexai_test: ------------------------------------------------------------------
+x_nose_nexai_test: 3. SCRIPT INCLUDE - WizardExtractor
+x_nose_nexai_test:    copies of this name on the instance: 5
+x_nose_nexai_test:    length: 51348 chars   (expected 50528)
+x_nose_nexai_test:    FAIL  length matches the file that was handed over   off by 820 - the paste may be truncated or the source differed
+x_nose_nexai_test:    PASS  partial flag CLEARS on a complete run
+x_nose_nexai_test:    PASS  relevance verdict written to the record
+x_nose_nexai_test:    PASS  one counterparty per mail
+x_nose_nexai_test:    PASS  amount sign derived from direction
+x_nose_nexai_test:    PASS  reads this scope's email table
+x_nose_nexai_test:    PASS  writes this scope's cashflow table
+x_nose_nexai_test:    PASS  no leftover x_nose_nfotc_bsm reference
+x_nose_nexai_test:    PASS  em dash count intact   found 33, expected 33
+x_nose_nexai_test:    PASS  no mojibake from the paste
+x_nose_nexai_test: ------------------------------------------------------------------
+x_nose_nexai_test: RESULT: 17 passed, 2 failed
+x_nose_nexai_test: Do not run a Sync in this scope until the failures above are cleared.
