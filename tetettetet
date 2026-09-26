@@ -1,31 +1,20 @@
  PCM integration – status
 
-  We've connected ServiceNow to the PCM cashflow retrieval API (/api/ssgai/cashflows) using the svcnewsd service
-  account, and built a reusable integration component so all our application scopes share one client.
+  We've connected ServiceNow to the PCM cashflow API using svcnewsd and built a reusable client.
 
-  Working
+  Working — retrieving live data via the MID server in ~700ms. Filters work precisely: an exact amount + date returns
+  exactly the right cashflow. Request contract confirmed (all seven criteria mandatory, Amount as a magnitude with
+  Direction carrying the side).
 
-  - Connection established and retrieving live data. The endpoint is only reachable via the MID server — the instance
-    itself can't resolve the intranet host — and responses come back in ~700ms, so performance is not a concern.
-  - The search criteria filter correctly server-side: an exact amount on an exact date returns exactly the one expected
-    cashflow.
-  - We've confirmed the request contract by testing: all seven criteria are mandatory, and Amount must be positive (PCM
-    treats it as a magnitude, with Direction carrying the side). Our client handles that conversion.
-
-  Blocker
-
-  CounterpartyName is mandatory, but in dev every value is masked (e.g. CP Name (8577922)). A settlement email gives us
-  the real counterparty name, never that token — so we can't currently drive a query from an actual email. Counterparty
-  Reference looked like the fallback, but it's blank on 4 of the 6 rows returned.
-
-  Everything else works; this single field blocks end-to-end matching.
+  Blocker — CounterpartyName is mandatory, but in dev it's masked (CP Name (8577922)). A settlement email gives us the
+  real name, never that token, so we can't yet query from an actual email. Counterparty Reference was the obvious
+  fallback but is blank on 4 of 6 rows.
 
   Questions
 
-  1. Is the data unmasked in UAT/prod? (most important — if yes, this is a dev-only limitation)
+  1. Is the data unmasked in UAT/prod? (most important — if yes, this is dev-only)
   2. Is there a lookup from a real counterparty name to that masked ID?
-  3. Could CounterpartyName be made optional or accept a wildcard? The other six criteria already narrow to a single
-     row.
-  4. Is there a bulk/batch variant? Currently it's one call per cashflow — ~290 cashflows means ~290 round trips.
+  3. Could CounterpartyName be optional or accept a wildcard? The other six criteria already narrow to one row.
+  4. Is there a bulk variant? Currently one call per cashflow — ~290 cashflows, ~290 round trips.
   5. What does CaseNumber represent?
-  6. Any update on the write-back API timeline?
+  6. Any update on the write-back API?
