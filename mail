@@ -1,7 +1,0 @@
-looked at whether we could use ServiceNow's built-in RAG (AI Search semantic retrieval) to improve extraction quality. Two things block it today.
-
-**1. The capability isn't installed on nomurabsmdev.** Keyword AI Search is active, but the semantic layer isn't — AI Search Semantic Controller, AI Search Index Sources and the Generative AI Controller are all absent, along with the supporting configuration tables. All 16 indexed sources are inactive. So RAG cannot be built there in its current state.
-
-Enabling it would mean installing the Generative AI Controller or a Now Assist application. That's a licensing question — and worth flagging that it partly reverses the deliberate decision to run NexAI on direct Chinou with no Now Assist dependency.
-
-**2. The embedding model would not be Nomura's.** RAG needs an embedding model, and ServiceNow's default routes to its own hosted model. Claude doesn't produce embeddings — ServiceNow's own AWS Claude provider pairs with Voyage for exactly this reason. So unless Chinou fronts a separate embeddings endpoint, indexing settlement email content would send that content to a non-Nomura model.
