@@ -27,6 +27,9 @@
  *
  * WHAT IS INSTALLED
  * -----------------
+ * First, the "Audit History" UI Action on each audited table - the list context-menu entry that
+ * opens the out-of-box history page, copied from Nomura's own. Then ten business rules:
+ *
  *    config.changed       a threshold or toggle was edited, with old and new value
  *    wizard.changed       a prompt or identification rule was edited. Large JSON fields are recorded
  *                         as a FINGERPRINT, not copied - tamper-evident without duplicating the payload
@@ -46,6 +49,11 @@
  *    sync.run             who pressed Sync, over how many mails, how long, how many failed. There is
  *                         no run identifier on any record to hang it from. mail.processed gives the
  *                         per-mail half of this today.
+ *
+ * PREREQUISITE: run ENABLE_AUDIT_GLOBAL.js from Global FIRST. It ticks Audit on the dictionary,
+ * which sys_dictionary refuses to let a scoped script do - measured, not assumed. Without it the
+ * rules below still record decisions, but the field-change trail behind the Audit History action
+ * will be empty.
  *
  * Safe to run twice: a rule that already exists is updated in place, not duplicated.
  */
@@ -95,6 +103,88 @@
     var ag = new GlideRecord(T_AUD);
     if (!ag.isValid()) { F(T_AUD + ' is not a valid table'); return; }
     P(T_AUD + ' is writable from here');
+
+    // ---------------------------------------------------------------- 1. the Audit History UI Action
+    //
+    // Ticking Audit (ENABLE_AUDIT_GLOBAL.js, run from Global) makes the data exist. This is how anyone
+    // reaches it. Copied from Nomura's own "Audit History" action on x_vort2_news_fees_rebate_payments
+    // in the NEWS application: a LIST CONTEXT MENU entry opening the out-of-box history.do page in a
+    // popup for the row you right-clicked. Same name, same action_name, same script, so it behaves like
+    // the one their users already know.
+    //
+    // This half lives in the per-scope script rather than the Global one because a UI Action created
+    // from Global would be stamped Global, and would not travel with the application.
+    //
+    // ui11_compatible is the field labelled "List v2 Compatible" - the classic list, which is where
+    // these tables are viewed. ui16_compatible is left false exactly as their sample has it.
+    line();
+    gs.info('1. "Audit History" UI ACTION');
+
+    var AUDITED = ['email', 'cashflow', 'booking', 'counterparty',
+                   'wizard', 'config', 'capability', 'work_item'];
+
+    var UI_SCRIPT =
+        'var selSysIds;\n' +
+        'function auditHistory() {\n' +
+        "    selSysIds = g_sysId;\n" +
+        "    g_navigation.openPopup('history.do?sysparm_sys_id=' + selSysIds +\n" +
+        "                           '&sysparm_table=' + g_list.getTableName());\n" +
+        '}\n';
+
+    var uiMade = 0, uiUpd = 0, uiSkip = 0;
+    for (var u = 0; u < AUDITED.length; u++) {
+        var utbl = SCOPE + '_' + AUDITED[u];
+        var uchk = new GlideRecord(utbl);
+        if (!uchk.isValid()) { uiSkip++; continue; }
+
+        var ua = new GlideRecord('sys_ui_action');
+        ua.addQuery('table', utbl);
+        ua.addQuery('action_name', 'audit_history');
+        ua.query();
+        var uExisted = ua.next();
+        if (!uExisted) { ua.initialize(); }
+
+        ua.setValue('name', 'Audit History');
+        ua.setValue('table', utbl);
+        ua.setValue('action_name', 'audit_history');
+        ua.setValue('order', 100);
+        ua.setValue('active', true);
+        ua.setValue('client', true);
+        ua.setValue('show_insert', true);
+        ua.setValue('show_update', true);
+        ua.setValue('onclick', 'auditHistory()');
+        ua.setValue('script', UI_SCRIPT);
+        ua.setValue('list_context_menu', true);
+        ua.setValue('ui11_compatible', true);
+        ua.setValue('ui16_compatible', false);
+        ua.setValue('form_button', false);
+        ua.setValue('form_context_menu', false);
+        ua.setValue('form_link', false);
+        ua.setValue('list_banner_button', false);
+        ua.setValue('list_button', false);
+        ua.setValue('list_choice', false);
+        ua.setValue('list_link', false);
+        ua.setValue('comments', 'Opens the out-of-box audit history for the selected record. Needs ' +
+            'Audit ticked on this table dictionary entry, which ENABLE_AUDIT_GLOBAL.js does.');
+
+        var uid = uExisted ? (ua.update() ? ua.getUniqueValue() : null) : ua.insert();
+        if (!uid) { F('UI Action for ' + utbl, 'could not save'); continue; }
+
+        var uv = new GlideRecord('sys_ui_action');
+        uv.get(uid);
+        var uok = (('' + uv.getValue('table')) === utbl) &&
+                  isOn(uv.getValue('active')) && isOn(uv.getValue('client')) &&
+                  isOn(uv.getValue('list_context_menu')) && isOn(uv.getValue('ui11_compatible')) &&
+                  (('' + uv.getValue('onclick')) === 'auditHistory()') &&
+                  (('' + uv.getValue('script')).indexOf('g_navigation.openPopup') > -1);
+        if (!uok) { F('UI Action for ' + utbl, 'saved but does not read back correctly'); continue; }
+
+        if (uExisted) { uiUpd++; gs.info('   updated  ' + pad(utbl, 36) + 'Audit History'); }
+        else { uiMade++; gs.info('   CREATED  ' + pad(utbl, 36) + 'Audit History'); }
+        pass++;
+    }
+    gs.info('   created ' + uiMade + ', updated ' + uiUpd +
+        (uiSkip ? (', ' + uiSkip + ' table(s) not present in this scope') : ''));
 
     // ---------------------------------------------------------------- the rules
     var RULES = [];
@@ -441,7 +531,7 @@
 
     // ---------------------------------------------------------------- install
     line();
-    gs.info('1. INSTALLING ' + RULES.length + ' BUSINESS RULES');
+    gs.info('2. INSTALLING ' + RULES.length + ' BUSINESS RULES');
     var made = 0, upd = 0;
 
     for (var r = 0; r < RULES.length; r++) {
@@ -502,7 +592,7 @@
 
     // ---------------------------------------------------------------- verify
     line();
-    gs.info('2. VERIFY - every audit rule now on this scope tables');
+    gs.info('3. VERIFY - every audit rule now on this scope tables');
     var seen = 0;
     var q = new GlideRecord('sys_script');
     q.addQuery('name', 'STARTSWITH', 'Audit - ');
@@ -524,7 +614,7 @@
 
     // what the trail holds right now
     line();
-    gs.info('3. EVENT TYPES IN ' + T_AUD + ' TODAY');
+    gs.info('4. EVENT TYPES IN ' + T_AUD + ' TODAY');
     var KNOWN = ['classification.decided', 'cashflow.extracted', 'config.changed', 'wizard.changed',
                  'mail.processed', 'extraction.partial', 'thread.classified', 'analyst.decision',
                  'match.decided', 'mo.sent', 'cashflow.deleted', 'email.deleted'];

@@ -14,9 +14,11 @@
  *               Column name is empty and whose Type is "collection". This is the setting itself.
  *   UI ACTION   is there an "Audit History" action (action_name = audit_history) on that table, active,
  *               client, on the list context menu. This is how anyone reaches the trail.
- *   TRAIL       how many sys_audit rows that table has actually accumulated. Zero is NOT a fault on a
- *               table nothing has changed on since the tick - audit is not retrospective - but a table
- *               being edited daily that still reads zero means the tick did not really take.
+ *   TRAIL       whether that table has any sys_audit rows at all. "none" is NOT a fault on a table
+ *               nothing has changed on since the tick - audit is not retrospective - but a table being
+ *               edited daily that still reads "none" means the tick did not really take.
+ *               (Existence, not a count: sys_audit holds over a billion rows instance-wide and an
+ *               unfiltered count of it took 2m40s in an earlier version of the enabling script.)
  *
  * The last column is the one worth trusting. The first two say it is configured; only the third says
  * it is working.
@@ -54,14 +56,16 @@
         return null;
     }
 
-    function auditRows(table) {
+    // sys_audit holds over a BILLION rows on this instance - it is shared by the whole platform.
+    // Never COUNT it. Existence is the question anyway: is this table recording, yes or no.
+    function hasTrail(table) {
         try {
-            var a = new GlideAggregate('sys_audit');
-            a.addQuery('tablename', table);
-            a.addAggregate('COUNT');
-            a.query();
-            return a.next() ? parseInt(a.getAggregate('COUNT'), 10) : 0;
-        } catch (e) { return -1; }
+            var g = new GlideRecord('sys_audit');
+            g.addQuery('tablename', table);
+            g.setLimit(1);
+            g.query();
+            return g.next() ? 'yes' : 'none';
+        } catch (e) { return '?'; }
     }
 
     var scope = '?';
@@ -121,11 +125,10 @@
             }
 
             // actual trail
-            var ar = auditRows(tbl);
-            if (ar > 0) { nTrail++; gTrail += ar; }
+            var ar = hasTrail(tbl);
+            if (ar === 'yes') { nTrail++; gTrail++; }
 
-            gs.info('   ' + pad(tbl, 34) + pad(audTxt, 10) + pad(uiTxt, 14) +
-                lpad(ar < 0 ? '?' : ar, 8));
+            gs.info('   ' + pad(tbl, 34) + pad(audTxt, 10) + pad(uiTxt, 14) + lpad(ar, 8));
 
             // flag anything that disagrees with the plan
             if (inList(EXPECTED_ON, suffix)) {
@@ -199,7 +202,7 @@
     gs.info('   audited            : ' + gAudit + '   (expected ' + (EXPECTED_ON.length * SCOPES.length) +
         ' if every scope is done and every table exists)');
     gs.info('   with UI action     : ' + gUi);
-    gs.info('   sys_audit rows     : ' + gTrail);
+    gs.info('   tables recording   : ' + gTrail);
     gs.info('   audit EVENT rows   : ' + gEvents + '   (the decisions - see INSTALL_AUDIT_EVENTS.js)');
     gs.info('');
     if (!problems.length) {
@@ -211,8 +214,8 @@
     }
     if (gTrail === 0) {
         gs.info('');
-        gs.info('   sys_audit is empty for these tables. That is expected right after enabling - the');
-        gs.info('   trail is not retrospective. Edit one record and re-run to prove it is recording.');
+        gs.info('   No table is recording yet. That is expected right after enabling - the trail is not');
+        gs.info('   retrospective. Edit one record and re-run; that column is the real proof.');
     }
 
     // ---------------------------------------------------------------- where to look in the UI
@@ -231,7 +234,7 @@
     gs.info('   3. The decision events, newest first');
     gs.info('      any x_nose_*_audit list, or filter event_type');
     gs.info('');
-    gs.info('   4. The field-change trail, newest first');
+    gs.info('   4. The field-change trail, newest first (filter first - it is a huge table)');
     gs.info('      ' + host + 'sys_audit_list.do?sysparm_query=' +
         'tablenameSTARTSWITHx_nose_^ORDERBYDESCsys_created_on');
     gs.info('');
