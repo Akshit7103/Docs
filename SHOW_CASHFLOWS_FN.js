@@ -1,66 +1,52 @@
-/**
- * SHOW TaggingDashboard._cashflows  -  read-only. Run once, Application = Global.
- *
- * The board-count patch refused to apply: its first anchor (the _cashflows query block) does not
- * match this scope's copy, though the other two anchors did. This prints the function verbatim so
- * the patch can be re-anchored against what is actually there rather than guessed at.
- *
- * Nothing is changed.
- */
-(function () {
-    var SCOPE = 'x_nose_nexai_test';
-    var out = [];
-    function p(s) { out.push(s); }
+[0:00:00.070] Script completed in scope global: script
+Script execution history and recovery available here
+*** Script: 
+=================================================================
+TaggingDashboard  d96ad80b25f246d3abf63fcaea97e777   41570 chars
+=================================================================
 
-    var sc = new GlideRecord('sys_scope');
-    sc.addQuery('scope', SCOPE);
-    sc.setLimit(1);
-    sc.query();
-    if (!sc.next()) { gs.info('app not found'); return; }
+--- _cashflows, verbatim (first 60 lines) ---
+   1 | _cashflows: function (emailId) {
+   2 |         var out = [];
+   3 |         // The counterparty is derived from the sender via EVE and lives on the EMAIL, not the
+   4 |         // cashflow. Read it once so every row carries the same authoritative value; the
+   5 |         // cashflow's ai_counterparty column is no longer written and must not be shown.
+   6 |         var cpty = '';
+   7 |         var _em = new GlideRecord('x_nose_nexai_test_email');
+   8 |         if (_em.get(emailId)) { cpty = '' + (_em.getValue('counterparty_name') || ''); }
+   9 |         var cf = new GlideRecord('x_nose_nexai_test_cashflow');
+  10 |         cf.addQuery('email', emailId);
+  11 |         cf.orderBy('flow_index');
+  12 |         cf.query();
+  13 |         while (cf.next()) {
+  14 |             out.push({
+  15 |                 sys_id: cf.getUniqueValue(),
+  16 |                 reference: cf.getValue('reference'), currency: cf.getValue('currency'),
+  17 |                 amount: cf.getValue('amount'), direction: cf.getValue('direction'),
+  18 |                 value_date: cf.getValue('value_date'), confirmed: cf.getValue('confirmed'),
+  19 |                 analyst_outcome: cf.getValue('analyst_outcome'),
+  20 |                 review_confirmed: cf.getValue('review_confirmed'), resolution: cf.getValue('resolution'),
+  21 |                 ai_counterparty: cf.getValue('ai_counterparty'), ai_reference: cf.getValue('ai_reference'),
+  22 |                 ai_currency: cf.getValue('ai_currency'), ai_amount: cf.getValue('ai_amount'),
+  23 |                 ai_direction: cf.getValue('ai_direction'), ai_value_date: cf.getValue('ai_value_date'),
+  24 |                 ai_confirmed: cf.getValue('ai_confirmed'), ai_analyst_outcome: cf.getValue('ai_analyst_outcome'),
+  25 |                 ai_review_confirmed: cf.getValue('ai_review_confirmed'), ai_resolution: cf.getValue('ai_resolution')
+  26 |             });
+  27 |         }
+  28 |         return out;
+  29 |     },
+  30 | 
+  31 |     // The raw .eml attachment on an email record. PREFER *.eml / message-rfc822 — a mail that carried a
+  32 |     // spreadsheet has BOTH the .eml AND an extracted Cashflows.xlsx on the record, and picking the xlsx
+  33 |     // (which has no Date header) broke the email-date read (Time Elapsed + Pre/Post tag fell back to ingest).
+  34 |     _attId: function (recId) {
+  35 |         var a = new GlideRecord('sys_attachment');
+  36 |         a.addQue
 
-    var si = new GlideRecord('sys_script_include');
-    si.addQuery('name', 'TaggingDashboard');
-    si.addQuery('sys_scope', sc.getUniqueValue());
-    si.setLimit(1);
-    si.query();
-    if (!si.next()) { gs.info('TaggingDashboard not found'); return; }
-
-    var s = si.getValue('script') || '';
-    p('=================================================================');
-    p('TaggingDashboard  ' + si.getUniqueValue() + '   ' + s.length + ' chars');
-    p('=================================================================');
-
-    var i = s.indexOf('_cashflows: function');
-    if (i < 0) {
-        p('!! no "_cashflows: function" in this script.');
-        p('   Occurrences of "_cashflows": ' + s.split('_cashflows').length);
-        gs.info('\n' + out.join('\n'));
-        return;
-    }
-
-    // print from the function header to a little past its return, with visible line numbers
-    var chunk = s.substring(i, i + 2200);
-    var lines = chunk.split('\n');
-    p('');
-    p('--- _cashflows, verbatim (first 60 lines) ---');
-    for (var n = 0; n < lines.length && n < 60; n++) {
-        p(('   ' + (n + 1)).slice(-4) + ' | ' + lines[n]);
-    }
-
-    p('');
-    p('--- exact-match probes ---');
-    var probes = [
-        "_cashflows: function (emailId) {",
-        "var cf = new GlideRecord('" + SCOPE + "_cashflow');",
-        "cf.addQuery('email', emailId);",
-        "cf.orderBy('flow_index');",
-        "ai_resolution: cf.getValue('ai_resolution')",
-        "        }\n        return out;\n    },"
-    ];
-    for (var q = 0; q < probes.length; q++) {
-        p('   ' + (s.indexOf(probes[q]) > -1 ? 'FOUND   ' : 'MISSING ') +
-          JSON.stringify(probes[q]).substring(0, 90));
-    }
-
-    gs.info('\n' + out.join('\n'));
-})();
+--- exact-match probes ---
+   FOUND   "_cashflows: function (emailId) {"
+   FOUND   "var cf = new GlideRecord('x_nose_nexai_test_cashflow');"
+   FOUND   "cf.addQuery('email', emailId);"
+   FOUND   "cf.orderBy('flow_index');"
+   FOUND   "ai_resolution: cf.getValue('ai_resolution')"
+   FOUND   "        }\n        return out;\n    },"
