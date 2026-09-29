@@ -1,206 +1,152 @@
-/**
- * GRANT SUPERUSER ACCESS  -  run ONCE in Background Scripts on nomurabsmdev.
- *
- * RUN WITH: Application = Global
- *   Roles (sys_user_has_role) and properties (sys_properties) are global tables, so ONE run covers
- *   every scope below. No per-scope run is needed - see "Why no work-driver assignment" further down.
- *
- * USER
- *   mepaara  -  arati.mepani2@nomura.com
- *
- * SCOPES - trim this list before running if she should not have all four.
- */
-(function () {
+[0:00:12.230] Script completed in scope global: script
+Script execution history and recovery available here
+Operation	Table	Row Count
+update	sys_cacheflush_timestamp	26
+insert	sys_audit_role	12
+insert	sys_user_has_role	12
+update	sys_properties	4
+insert	sys_trigger	4
+...and another 4 affected table(s)
+View full summary here
+#### Compiler Stats ####
+Compiles: 1, time: 1,546ms
+Total classes: 1, bytecode length: 0
+Total loaders created: 1, unloaded: 1, existing: 0
+Interpreted compiles: 28,900, time: 13,099ms
+Cache name: "syscache_expression", max: 7,447, size: 6,132, seeks: 859,041,560, hits: 429,514,205, misses: 429,527,355, flushed: 0, row evictions: 0, single key evictions: 0, puts: 0, reclaims: 0, time from last reclaim to recreation total ms: 0, average time from last reclaim to recreation ms: 0
+[CacheFlushLog] event=sys_user_has_role, count=1, ms=0: Flushing catalog sys_user_has_role
+[CacheFlushLog] event=user_criteria_cache, count=1, ms=24: Flushing catalog user_criteria_cache
+[CacheFlushLog] event=USER_ITEMS_CACHE, count=1, ms=1: Flushing catalog USER_ITEMS_CACHE
+[CacheFlushLog] event=USER_CATEGORIES_CACHE, count=1, ms=0: Flushing catalog USER_CATEGORIES_CACHE
+[CacheFlushLog] event=knowledge_base_cache, count=1, ms=1: Flushing catalog knowledge_base_cache
+Adding Role x_nose_nexai_test.analyst to mepaara
+Background message, type:info, message: Adding Role x_nose_nexai_test.analyst to mepaara
+[CacheFlushLog] event=sys_properties, count=1, ms=221: Flushing catalog sys_properties
+Starting cache flush
+Flushing the whole cache list
+[CacheFlushLog] event=sys_cacheflush_timestamp, count=1, ms=86: Flushing catalog sys_cacheflush_timestamp
+[CacheFlushLog] event=syscache_everything, count=1, ms=168: Flushing catalog syscache_everything
+Loaded the Data Lookup cache in 28 ms
+[CacheFlushLog] event=sys_ux_asset_cache_buster, count=1, ms=99: Flushing catalog sys_ux_asset_cache_buster
+█ Activity Document Table Cache:  rebuilt=[sn_vsc_instance_hardening_settings]
+Flushing Scoped caches
+[CacheFlushLog] event=glide.properties.db, count=1, ms=55: Flushing catalog glide.properties.db
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Cache flush complete
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Slow business rule 'Properties change' on sys_properties:<span class = "session-log-bold-text"> x_nose_nexai_test.demo_users</span>, time was: 0:00:01.200
+Adding Role x_nose_nfotc_bsm.analyst to mepaara
+Background message, type:info, message: Adding Role x_nose_nfotc_bsm.analyst to mepaara
+Starting cache flush
+Flushing the whole cache list
+Flushing Scoped caches
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Cache flush complete
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Slow business rule 'Properties change' on sys_properties:<span class = "session-log-bold-text"> x_nose_nfotc_bsm.demo_users</span>, time was: 0:00:06.375
+Adding Role x_nose_nexai_dev.analyst to mepaara
+Background message, type:info, message: Adding Role x_nose_nexai_dev.analyst to mepaara
+Starting cache flush
+Flushing the whole cache list
+Loaded the Data Lookup cache in 26 ms
+█ Activity Document Table Cache:  rebuilt=[sn_vsc_instance_hardening_settings]
+Flushing Scoped caches
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Cache flush complete
+Loading properties from DB
+[0:00:00.114] id: nomurabsmdev_1[glide.1 (connpid=1512747)] for: DBQuery#loadResultSet[sys_properties: ORDERBYsys_id]
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Slow business rule 'Properties change' on sys_properties:<span class = "session-log-bold-text"> x_nose_nexai_dev.demo_users</span>, time was: 0:00:01.258
+Adding Role x_nose_nexai_uat.analyst to mepaara
+Background message, type:info, message: Adding Role x_nose_nexai_uat.analyst to mepaara
+Starting cache flush
+Flushing the whole cache list
+Flushing Scoped caches
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Cache flush complete
+Loading properties from DB
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Skipping db override of non-overridable property :glide.db.allow_unsafe_dbi_execute_sql
+StorageEncrypter: no registered Key-Provider for hashKey: b8j: no thrown error
+Slow business rule 'Properties change' on sys_properties:<span class = "session-log-bold-text"> x_nose_nexai_uat.demo_users</span>, time was: 0:00:01.028
+*** Script: 
+=================================================================
+GRANT SUPERUSER   mepaara
+=================================================================
 
-    var USER_NAME = 'mepaara';
-    var USER_EMAIL = 'arati.mepani2@nomura.com';
+MATCHED USER
+   name      : Arati Mepani
+   user_name : mepaara
+   email     : arati.mepani2@nomura.com
+   active    : 1
+   sys_id    : 705fbf7adb7e785076e3bc04b9961902
 
-    var SCOPES = [
-        'x_nose_nexai_test',
-        'x_nose_nfotc_bsm',
-        'x_nose_nexai_dev',
-        'x_nose_nexai_uat'
-    ];
+x_nose_nexai_test
+   role     x_nose_nexai_test.analyst  GRANTED
+   role     x_nose_nexai_test.manager  GRANTED
+   property x_nose_nexai_test.demo_users  APPENDED -> "akshit.mahajan,satyadarshi.mohanty,gopinath.adhikary,sriram.iyer,mayur.nachnani,muralia,adhikarg,walavisv,nigamp,sriyer,godavars,nachnanm,mohansat,makkaraa,khatrim,khatridh,solharsh,shahaans,mepaara"
 
-    /**
-     * WHAT SUPERUSER MEANS HERE, AND WHY THERE IS NO WORK-DRIVER ASSIGNMENT
-     *
-     * Three things gate access in this application:
-     *   1. the role                     - grants table access through the ACLs
-     *   2. assignment to a work driver  - decides WHOSE mail you can see
-     *   3. the demo_users property      - the Manager/Analyst view toggle and the analyst picker
-     *
-     * (3) is not just a UI toggle. AccessGuard.isManagerOrAdmin() is
-     *     gs.hasRole('admin') || _hasManagerRole() || isDemoUser()
-     * and canViewAny(), canViewWizard() and canViewCashflow() all short-circuit on it. So a name in
-     * demo_users sees EVERY work driver's mail with no assignment at all - it bypasses gate 2.
-     *
-     * That is exactly what "superuser" asks for, so this script does (1) and (3) and deliberately
-     * skips (2): assigning her to one driver would add nothing she does not already have, and the
-     * wizard table is scoped, which would force a separate run per scope for no benefit.
-     *
-     * If she should NOT see every driver's mail, do not run this - ask for analyst level instead.
-     *
-     * Pure ASCII. Idempotent - re-running grants nothing twice.
-     */
+x_nose_nfotc_bsm
+   role     x_nose_nfotc_bsm.analyst  GRANTED
+   role     x_nose_nfotc_bsm.manager  GRANTED
+   property x_nose_nfotc_bsm.demo_users  APPENDED -> "akshit.mahajan,satyadarshi.mohanty,gopinath.adhikary,sriram.iyer,mayur.nachnani,muralia,adhikarg,walavisv,nigamp,sriyer,godavars,nachnanm,mohansat,makkaraa,khatrim,khatridh,solharsh,shahaans,mepaara"
 
-    var log = [];
-    function p(s) { log.push(s); }
+x_nose_nexai_dev
+   role     x_nose_nexai_dev.analyst  GRANTED
+   role     x_nose_nexai_dev.manager  GRANTED
+   property x_nose_nexai_dev.demo_users  APPENDED -> "akshit.mahajan,satyadarshi.mohanty,gopinath.adhikary,sriram.iyer,mayur.nachnani,muralia,adhikarg,nigamp,sriyer,godavars,walavisv,mepaara"
 
-    p('=================================================================');
-    p('GRANT SUPERUSER   ' + USER_NAME);
-    p('=================================================================');
+x_nose_nexai_uat
+   role     x_nose_nexai_uat.analyst  GRANTED
+   role     x_nose_nexai_uat.manager  GRANTED
+   property x_nose_nexai_uat.demo_users  APPENDED -> "akshit.mahajan,satyadarshi.mohanty,gopinath.adhikary,sriram.iyer,mayur.nachnani,muralia,adhikarg,walavisv,nigamp,sriyer,godavars,mepaara"
 
-    var here = gs.getCurrentScopeName();
-    if (here !== 'global' && here !== 'rhino.global') {
-        p('!! WRONG SCOPE - set the Application picker to Global and run again. Nothing changed.');
-        gs.info('\n' + log.join('\n'));
-        return;
-    }
+=================================================================
+roles granted     : 8   (already held: 0)
+properties changed: 4
 
-    // ---------------------------------------------------------------- find the user
-    var u = new GlideRecord('sys_user');
-    u.addQuery('user_name', USER_NAME);
-    u.setLimit(1);
-    u.query();
-    if (!u.next()) {
-        p('user_name "' + USER_NAME + '" not found - trying the email address');
-        u = new GlideRecord('sys_user');
-        u.addQuery('email', USER_EMAIL);
-        u.setLimit(1);
-        u.query();
-        if (!u.next()) {
-            p('');
-            p('!! NO USER FOUND for user_name "' + USER_NAME + '" or email "' + USER_EMAIL + '".');
-            p('   Nothing granted. Check the spelling on sys_user.list before re-running.');
-            gs.info('\n' + log.join('\n'));
-            return;
-        }
-    }
-    var userId = u.getUniqueValue();
-    var realName = u.getValue('user_name');
-    p('');
-    p('MATCHED USER');
-    p('   name      : ' + u.getValue('name'));
-    p('   user_name : ' + realName);
-    p('   email     : ' + (u.getValue('email') || '(none)'));
-    p('   active    : ' + u.getValue('active'));
-    p('   sys_id    : ' + userId);
-    if (u.getValue('active') !== 'true' && u.getValue('active') !== '1') {
-        p('   !! this account is INACTIVE - the grants below will apply but she cannot sign in');
-    }
+mepaara now has manager-level read across every scope listed above, plus the
+Manager/Analyst toggle, and appears in the analyst picker.
 
-    // ---------------------------------------------------------------- grant
-    var grantedRoles = 0, skippedRoles = 0, propsChanged = 0;
+SHE DOES NOT NEED A WORK-DRIVER ASSIGNMENT - demo_users bypasses that gate. If she should
+only see one driver, undo this and grant analyst level instead.
 
-    for (var s = 0; s < SCOPES.length; s++) {
-        var scope = SCOPES[s];
-        p('');
-        p(scope);
-
-        // --- 1. roles
-        var wanted = [scope + '.analyst', scope + '.manager'];
-        for (var w = 0; w < wanted.length; w++) {
-            var roleName = wanted[w];
-            var r = new GlideRecord('sys_user_role');
-            r.addQuery('name', roleName);
-            r.setLimit(1);
-            r.query();
-            if (!r.next()) {
-                p('   role     ' + roleName + '  !! does not exist on this instance - skipped');
-                continue;
-            }
-            var has = new GlideRecord('sys_user_has_role');
-            has.addQuery('user', userId);
-            has.addQuery('role', r.getUniqueValue());
-            has.setLimit(1);
-            has.query();
-            if (has.next()) {
-                p('   role     ' + roleName + '  already held');
-                skippedRoles++;
-                continue;
-            }
-            var ins = new GlideRecord('sys_user_has_role');
-            ins.initialize();
-            ins.setValue('user', userId);
-            ins.setValue('role', r.getUniqueValue());
-            if (ins.insert()) {
-                p('   role     ' + roleName + '  GRANTED');
-                grantedRoles++;
-            } else {
-                p('   role     ' + roleName + '  !! insert failed');
-            }
-        }
-
-        // --- 2. demo_users
-        // The code reads this with a hard-coded fallback, so a MISSING property is not the same as
-        // an empty one: if the property does not exist the fallback user is a demo operator, and
-        // creating it with only the new name would silently remove their access. So when it has to
-        // be created, the fallback name is carried into it.
-        var propName = scope + '.demo_users';
-        var FALLBACK = 'akshit.mahajan';
-        var pr = new GlideRecord('sys_properties');
-        pr.addQuery('name', propName);
-        pr.setLimit(1);
-        pr.query();
-
-        if (!pr.next()) {
-            var seed = FALLBACK + ',' + realName;
-            var np = new GlideRecord('sys_properties');
-            np.initialize();
-            np.setValue('name', propName);
-            np.setValue('value', seed);
-            np.setValue('type', 'string');
-            np.setValue('description',
-                'Comma-separated user names who get the Manager/Analyst view toggle and appear in the ' +
-                'analyst picker. NOTE: a name here also grants manager-level READ across the application.');
-            if (np.insert()) {
-                p('   property ' + propName + '  CREATED = "' + seed + '"');
-                p('            (the property did not exist; the code fallback "' + FALLBACK + '" was');
-                p('             carried in so their existing access is not removed)');
-                propsChanged++;
-            } else {
-                p('   property ' + propName + '  !! create failed');
-            }
-            continue;
-        }
-
-        var cur = '' + (pr.getValue('value') || '');
-        var parts = cur.split(',');
-        var found = false;
-        for (var i = 0; i < parts.length; i++) {
-            if (parts[i].replace(/^\s+|\s+$/g, '') === realName) { found = true; break; }
-        }
-        if (found) {
-            p('   property ' + propName + '  already lists ' + realName);
-        } else {
-            var next = cur.replace(/^\s+|\s+$/g, '');
-            next = next ? (next + ',' + realName) : realName;
-            pr.setValue('value', next);
-            pr.update();
-            p('   property ' + propName + '  APPENDED -> "' + next + '"');
-            propsChanged++;
-        }
-    }
-
-    // ---------------------------------------------------------------- summary
-    p('');
-    p('=================================================================');
-    p('roles granted     : ' + grantedRoles + '   (already held: ' + skippedRoles + ')');
-    p('properties changed: ' + propsChanged);
-    p('');
-    if (grantedRoles || propsChanged) {
-        p(realName + ' now has manager-level read across every scope listed above, plus the');
-        p('Manager/Analyst toggle, and appears in the analyst picker.');
-        p('');
-        p('SHE DOES NOT NEED A WORK-DRIVER ASSIGNMENT - demo_users bypasses that gate. If she should');
-        p('only see one driver, undo this and grant analyst level instead.');
-    } else {
-        p('Nothing to do - she already had everything.');
-    }
-    p('');
-    p('TO UNDO: remove her name from each <scope>.demo_users property, and delete her');
-    p('         sys_user_has_role rows for the .analyst / .manager roles.');
-    p('=================================================================');
-    gs.info('\n' + log.join('\n'));
-})();
+TO UNDO: remove her name from each <scope>.demo_users property, and delete her
+         sys_user_has_role rows for the .analyst / .manager roles.
+=================================================================
