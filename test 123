@@ -1,0 +1,14 @@
+how to give/revoke access
+how to generate a shareable link
+how to duplicate an instance 
+things to be modified while migrating from eval to bsm & vice versa
+key differences between the environments (whats missing/extra in dev vs UAT vs test, etc)
+what are the ongoing developments going on 
+api keys/endpoints
+whats your approach for integrating eve/pcm/mailbox, etc
+other artifacts that are not covered in the code doc but were covered in the call 
+
+Use cases that are still pending to test or dev
+Backup of Prod App / update set or static data is any -  Eval(now Assist and BSM Dev), Static Data
+User Manual
+now Assist vs BSM dev( pros and cons)
