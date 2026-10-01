@@ -1,223 +1,122 @@
-/**
- * IS THE PDF WE SEND ACTUALLY INTACT?  -  read-only. Application = NexAI OTC Test.
- *
- * WHY THIS, NOW
- *   The ablation showed that even a bare "transcribe this document" prompt - no field spec at all -
- *   comes back as an empty 200 for these mails. So the field definitions are NOT the cause.
- *
- *   But "the gateway cannot read this document" is not the only explanation, and the timings point
- *   elsewhere: the gateway answered in 114-708ms while the whole call took 12-37s. A fast empty
- *   answer is what you get when the payload is REJECTED, not when a document is hard to read.
- *
- *   So before blaming the gateway: is the base64 we hand it a valid, complete PDF?
- *
- *   There is a specific reason to doubt it. These mails carry a STALE X-Original-Content-Type
- *   boundary that differs from the real Content-Type boundary. _findAllPdfParts harvests EVERY
- *   boundary string it can see and splits the raw mail on each one in turn. Split on the wrong
- *   boundary and the "part" is truncated or polluted - and because the code then strips every
- *   non-base64 character, the damage is silent: what comes out still looks like clean base64.
- *
- * WHAT IT CHECKS, per mail
- *   For the PDF taken from the ATTACHMENT record (trustworthy) and the one scraped from the raw
- *   .eml MIME (suspect), independently:
- *     - decoded byte length,
- *     - the %PDF- header,
- *     - the %%EOF trailer - a truncated PDF is missing this, which is the whole point,
- *     - base64 length divisible by 4,
- *     - and whether the two sources AGREE.
- *   Then it reports which one findAllPdfs - the live code path - actually selected.
- *
- * Changes nothing. Makes no model calls. Pure ASCII. ES5.
- */
-(function () {
+[0:00:00.669] Script completed in scope x_nose_nexai_test: script
+Script execution history and recovery available here
+Operation	Table	Row Count
+insert	sys_update_version	1
+insert	sys_metadata_customization	1
+insert	sys_scope_privilege	1
+insert	sys_update_xml	1
+Security restricted: Execute operation on API 'Glide API: string utilities' from scope 'NexAI OTC Test' was granted and added to 'NexAI OTC Test' cross scope privileges
+x_nose_nexai_test: 
+=================================================================
+PDF PAYLOAD INTEGRITY   scope x_nose_nexai_test
+=================================================================
 
-    var SCOPE = 'x_nose_nexai_test';
+-----------------------------------------------------------------
+Payment Notice Nomura International PLC Jul-30-2026 USD.eml
+-----------------------------------------------------------------
+   attachments on the record:
+      Payment Notice Nomura International PLC Jul-30  message/rfc822            47313 bytes
+      PaymentNotice_Nomura International PLC_Jul-30-  application/pdf           16060 bytes
+   MIME boundaries declared in the raw mail : 3
+      [0] ----=_Part_22_1258325378.1785331400425
+      [1] =_NextPart_2d739b14e345427b86039c1e865eaf3c
+      [2] =_NextPart_336361b5990f451ca3d3a40ff027095e
+      ^ more than one. _findAllPdfParts splits on EVERY one of these in turn,
+        so a stale boundary can produce a truncated or polluted part.
 
-    var WANT = [
-        'payment notice nomura international plc jul-30-2026',
-        'gs settlement for value date 2026-08-19  gs ref num 215512496',
-        'otc derivative confirmation sdbb4qn33349cd99qq.0.0.0.1',
-        'rebate  tdcctrade date 812',
-        'irs-payment val. 15.05.26'
-    ];
+   INTEGRITY
+      ATTACHMENT            b64 21416    bytes 15368    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      MIME PART 1           b64 21416    bytes 15368    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      SENT (findAllPdfs)    b64 21416    bytes 15368    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
 
-    var out = [];
-    function p(s) { out.push(s); }
-    function pad(s, n) { s = '' + s; while (s.length < n) { s += ' '; } return s; }
+   attachment vs MIME-scraped : same length - consistent
 
-    p('=================================================================');
-    p('PDF PAYLOAD INTEGRITY   scope ' + SCOPE);
-    p('=================================================================');
+-----------------------------------------------------------------
+GS Settlement for Value Date 2026-08-19  GS Ref Num 215512496.eml
+-----------------------------------------------------------------
+   attachments on the record:
+      GS Settlement for Value Date 2026-08-19  GS Re  message/rfc822            53188 bytes
+      XDOC02089328769469788160.pdf                    application/pdf           9210 bytes
+   MIME boundaries declared in the raw mail : 3
+      [0] ----=_Part_2032_848590666.1786969775568
+      [1] =_NextPart_c937ea8486bf407f9226e5b57c166f5a
+      [2] =_NextPart_153926b47a7940c2b03566bcc12f28e5
+      ^ more than one. _findAllPdfParts splits on EVERY one of these in turn,
+        so a stale boundary can produce a truncated or polluted part.
 
-    var here = '' + gs.getCurrentScopeName();
-    if (here !== SCOPE) {
-        p('!! WRONG SCOPE. Current = "' + here + '", needs "' + SCOPE + '". Nothing run.');
-        gs.info('\n' + out.join('\n'));
-        return;
-    }
+   INTEGRITY
+      ATTACHMENT            b64 12280    bytes 8901     hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      MIME PART 1           b64 12280    bytes 8901     hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      SENT (findAllPdfs)    b64 12280    bytes 8901     hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
 
-    var pdfx = new PdfCashflowExtractor();
+   attachment vs MIME-scraped : same length - consistent
 
-    // --------------------------------------------------------------- helpers
-    function b64Info(b64, label) {
-        var r = { label: label, b64len: 0, bytes: 0, header: '', tail: '', eof: false, mod4: false, ok: false };
-        b64 = '' + (b64 || '');
-        r.b64len = b64.length;
-        if (!b64.length) { return r; }
-        r.mod4 = (b64.length % 4) === 0;
-        var dec = '';
-        try {
-            dec = '' + GlideStringUtil.base64Decode(b64);
-        } catch (e) {
-            try { dec = '' + gs.base64Decode(b64); } catch (e2) { dec = ''; }
-        }
-        r.bytes = dec.length;
-        r.header = dec.substring(0, 8);
-        r.tail = dec.substring(Math.max(0, dec.length - 24));
-        r.eof = dec.indexOf('%%EOF') > -1;
-        r.ok = (r.header.indexOf('%PDF-') === 0) && r.eof && r.mod4;
-        return r;
-    }
+-----------------------------------------------------------------
+OTC Derivative Confirmation SDBB4QN33349CD99QQ.0.0.0.1.eml
+-----------------------------------------------------------------
+   attachments on the record:
+      OTC Derivative Confirmation SDBB4QN33349CD99QQ  message/rfc822            85208 bytes
+      DOC000002741437.pdf                             application/pdf           28933 bytes
+   MIME boundaries declared in the raw mail : 3
+      [0] ----=_Part_812_615057141.1787020661911
+      [1] =_NextPart_c1bedfe5e5454f7483974c79153706b1
+      [2] =_NextPart_ec02e57e0778432eb8b47cb25109e301
+      ^ more than one. _findAllPdfParts splits on EVERY one of these in turn,
+        so a stale boundary can produce a truncated or polluted part.
 
-    function show(info) {
-        p('      ' + pad(info.label, 22) +
-          'b64 ' + pad(info.b64len, 9) +
-          'bytes ' + pad(info.bytes, 9) +
-          'hdr "' + info.header.replace(/[^\x20-\x7e]/g, '.') + '"  ' +
-          '%%EOF ' + pad(info.eof ? 'yes' : 'NO', 5) +
-          'mod4 ' + pad(info.mod4 ? 'yes' : 'NO', 5) +
-          (info.ok ? 'VALID' : '*** SUSPECT ***'));
-        if (!info.eof && info.bytes) {
-            p('         tail: "' + info.tail.replace(/[^\x20-\x7e]/g, '.') + '"   <- a complete PDF ends with %%EOF');
-        }
-    }
+   INTEGRITY
+      ATTACHMENT            b64 38580    bytes 27724    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      MIME PART 1           b64 38580    bytes 27724    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      SENT (findAllPdfs)    b64 38580    bytes 27724    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
 
-    var verdicts = [];
+   attachment vs MIME-scraped : same length - consistent
 
-    for (var w = 0; w < WANT.length; w++) {
-        var frag = WANT[w];
+-----------------------------------------------------------------
+Rebate  TDCCTrade Date 812.eml
+-----------------------------------------------------------------
+   attachments on the record:
+      Rebate  TDCCTrade Date 812.eml                  message/rfc822            106196 bytes
+      hsuanfeng.shih@fubon.com_20260817_173611.pdf    application/pdf           38899 bytes
+   MIME boundaries declared in the raw mail : 3
+      [0] _004_OSCPR01MB13583BF8267867618D991D3108CA72OSCPR01MB13583jp
+      [1] =_NextPart_cf03a91da670447b827657a948dde3ea
+      [2] =_NextPart_bd059181aa0b4a9b8fe0b2cef7923646
+      ^ more than one. _findAllPdfParts splits on EVERY one of these in turn,
+        so a stale boundary can produce a truncated or polluted part.
 
-        var e = new GlideRecord(SCOPE + '_email');
-        e.query();
-        var em = null;
-        while (e.next()) {
-            if (('' + (e.getValue('name') || '')).toLowerCase().indexOf(frag) > -1) {
-                em = { id: e.getUniqueValue(), name: '' + e.getValue('name') };
-                break;
-            }
-        }
-        if (!em) { p(''); p('(not found) ' + frag); continue; }
+   INTEGRITY
+      ATTACHMENT            b64 51868    bytes 37093    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      MIME PART 1           b64 51868    bytes 37093    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
+      SENT (findAllPdfs)    b64 51868    bytes 37093    hdr "%PDF-1.4"  %%EOF yes  mod4 yes  VALID
 
-        p('');
-        p('-----------------------------------------------------------------');
-        p(em.name.substring(0, 70));
-        p('-----------------------------------------------------------------');
+   attachment vs MIME-scraped : same length - consistent
 
-        // ---- source A: the attachment records on the mail
-        var attInfos = [], emlAtt = '';
-        var a = new GlideRecord('sys_attachment');
-        a.addQuery('table_name', SCOPE + '_email');
-        a.addQuery('table_sys_id', em.id);
-        a.orderBy('sys_created_on');
-        a.query();
-        p('   attachments on the record:');
-        while (a.next()) {
-            var fn = '' + (a.getValue('file_name') || '');
-            var ct = ('' + (a.getValue('content_type') || '')).toLowerCase();
-            var sz = a.getValue('size_bytes');
-            p('      ' + pad(fn.substring(0, 46), 48) + pad(ct.substring(0, 24), 26) + sz + ' bytes');
-            if (ct === 'message/rfc822' || fn.toLowerCase().substring(fn.length - 4) === '.eml') {
-                emlAtt = a.getUniqueValue();
-            }
-            if (ct === 'application/pdf' || /\.pdf$/i.test(fn)) {
-                var ab = '';
-                try { ab = ('' + (new GlideSysAttachment().getContentBase64(a) || '')).replace(/\s+/g, ''); }
-                catch (eA) { ab = ''; }
-                attInfos.push(b64Info(ab, 'ATTACHMENT'));
-            }
-        }
+-----------------------------------------------------------------
+IRS-payment val. 15.05.26 (Nomura International PLC GB 51308081)-mha.e
+-----------------------------------------------------------------
+   attachments on the record:
+      IRS-payment val. 15.05.26 (Nomura Internationa  message/rfc822            249202 bytes
+      Kommunalkredit Austria AG_SSI's_2025 04.pdf     application/pdf           156549 bytes
+   MIME boundaries declared in the raw mail : 3
+      [0] _004_AS8PR02MB74000E19FE232F41F59D2547E9392AS8PR02MB7400eurp
+      [1] =_NextPart_9f4c816dff3c4cf5b3af508dfcd7d614
+      [2] =_NextPart_f9065e5202014798907a4d39b7e7ba64
+      ^ more than one. _findAllPdfParts splits on EVERY one of these in turn,
+        so a stale boundary can produce a truncated or polluted part.
 
-        // ---- source B: scraped out of the raw .eml by the live code
-        var partInfos = [];
-        if (emlAtt) {
-            var raw = '';
-            try { raw = '' + (pdfx._readText(emlAtt) || ''); } catch (eR) { raw = ''; }
-            if (raw) {
-                var boundaries = [];
-                raw.replace(/boundary="?([^";\r\n]+)"?/gi, function (_m, b) {
-                    if (boundaries.indexOf(b) < 0) { boundaries.push(b); }
-                    return _m;
-                });
-                p('   MIME boundaries declared in the raw mail : ' + boundaries.length);
-                for (var bi = 0; bi < boundaries.length; bi++) {
-                    p('      [' + bi + '] ' + boundaries[bi].substring(0, 60));
-                }
-                if (boundaries.length > 1) {
-                    p('      ^ more than one. _findAllPdfParts splits on EVERY one of these in turn,');
-                    p('        so a stale boundary can produce a truncated or polluted part.');
-                }
-                var parts = [];
-                try { parts = pdfx._findAllPdfParts(raw) || []; } catch (eP) { parts = []; }
-                for (var q = 0; q < parts.length; q++) {
-                    partInfos.push(b64Info(parts[q].base64, 'MIME PART ' + (q + 1)));
-                }
-            }
-        } else {
-            p('   (no .eml attachment on this record - nothing to scrape)');
-        }
+   INTEGRITY
+      ATTACHMENT            b64 208732   bytes 148953   hdr "%PDF-1.7"  %%EOF yes  mod4 yes  VALID
+      MIME PART 1           b64 208732   bytes 148953   hdr "%PDF-1.7"  %%EOF yes  mod4 yes  VALID
+      SENT (findAllPdfs)    b64 208732   bytes 148953   hdr "%PDF-1.7"  %%EOF yes  mod4 yes  VALID
 
-        // ---- what the live path actually hands to the gateway
-        var live = [];
-        try { live = pdfx.findAllPdfs(emlAtt, em.id) || []; } catch (eL) { live = []; }
+   attachment vs MIME-scraped : same length - consistent
 
-        p('');
-        p('   INTEGRITY');
-        var i;
-        for (i = 0; i < attInfos.length; i++) { show(attInfos[i]); }
-        for (i = 0; i < partInfos.length; i++) { show(partInfos[i]); }
-        if (!attInfos.length && !partInfos.length) { p('      (no PDF found by either route)'); }
+=================================================================
+WHAT THIS MEANS
+   PDFs the live path would send : 5   valid 5   suspect 0
 
-        for (i = 0; i < live.length; i++) {
-            var li = b64Info(live[i].base64, 'SENT (findAllPdfs)');
-            show(li);
-            verdicts.push({ mail: em.name, info: li, filename: live[i].filename });
-        }
-
-        // ---- do the two sources agree?
-        if (attInfos.length && partInfos.length) {
-            var same = (attInfos[0].bytes === partInfos[0].bytes);
-            p('');
-            p('   attachment vs MIME-scraped : ' +
-              (same ? 'same length - consistent'
-                    : 'DIFFERENT (' + attInfos[0].bytes + ' vs ' + partInfos[0].bytes +
-                      ' bytes) <- one of them is wrong'));
-        }
-    }
-
-    // --------------------------------------------------------------- verdict
-    p('');
-    p('=================================================================');
-    p('WHAT THIS MEANS');
-    var bad = 0, good = 0;
-    for (var v = 0; v < verdicts.length; v++) {
-        if (verdicts[v].info.ok) { good++; } else { bad++; }
-    }
-    p('   PDFs the live path would send : ' + verdicts.length +
-      '   valid ' + good + '   suspect ' + bad);
-    p('');
-    if (bad > 0) {
-        p('   AT LEAST ONE PAYLOAD IS MALFORMED. That is very likely the whole fault: a truncated or');
-        p('   polluted PDF is rejected by the gateway in milliseconds and returns an empty 200 - which');
-        p('   is exactly the signature we measured (roundTrip 114-708ms, empty body).');
-        p('   This is OUR bug, in the MIME part extraction, not the model and not the document.');
-    } else if (verdicts.length) {
-        p('   EVERY PAYLOAD IS A COMPLETE, VALID PDF. So we are sending a good document and the');
-        p('   gateway is returning nothing for it. That moves the fault to the gateway document');
-        p('   handler - ask whether it rejects these PDFs (encryption flags, fonts, producer), and');
-        p('   test the same file against the dedicated document-parser endpoint.');
-    } else {
-        p('   No PDFs were resolved at all - check the attachment list above first.');
-    }
-    p('=================================================================');
-    gs.info('\n' + out.join('\n'));
-})();
+   EVERY PAYLOAD IS A COMPLETE, VALID PDF. So we are sending a good document and the
+   gateway is returning nothing for it. That moves the fault to the gateway document
+   handler - ask whether it rejects these PDFs (encryption flags, fonts, producer), and
+   test the same file against the dedicated document-parser endpoint.
+=================================================================
